@@ -58,9 +58,8 @@ function App() {
   
     try {
       const customHeaders = {
-        Host: 'https://book-app-inky.vercel.app/',
-        Origin: 'https://book-app-inky.vercel.app/'
-      };
+        Host: 'https://book-app-inky.vercel.app/'
+            };
       const response = await axios.get(apiUrl_, { params: params_, headers: customHeaders });
       console.log(response.data);
     } catch (error) {
