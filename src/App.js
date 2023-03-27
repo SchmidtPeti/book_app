@@ -25,40 +25,43 @@ function App() {
         score: 3.7
       }
     ];
-    const apiUrl = 'https://api.citatum.hu/idezet.php';
+    const apiUrl = 'https://moly.hu/api/books.json';
     const params = {
-      konyv: "tüskevár",
-      f: 'Mondvanolvaso',
-      j: 'c53d6e70479b94bf1d1a4bc872eb2bd7'
+      q: "tüskevár",
+      key: '82bcbc88494e224498b951657083bb4d'
     };
   
     try {
       const response = await axios.get(apiUrl, { params: params });
   
-      // Parse XML response using DOMParser
-      const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(response.data, 'application/xml');
+      // Extract book data from JSON response
+      const books = response.data.books;
   
-      const idezet = xmlDoc.querySelector('idezet');
-      const idezetszoveg = idezet.querySelector('idezetszoveg').textContent;
-      const szerzo = idezet.querySelector('szerzo').textContent;
-      const kategoriak = Array.from(idezet.querySelectorAll('kategoria')).map(
-        (elem) => elem.textContent
-      );
-      const kedvenc = idezet.querySelector('kedvenc').textContent;
-      const id = idezet.querySelector('id').textContent;
-      const url = idezet.querySelector('url').textContent;
+      // Log the book data
+      console.log('Books:', books);
   
-      console.log('idezetszoveg:', idezetszoveg);
-      console.log('szerzo:', szerzo);
-      console.log('kategoriak:', kategoriak);
-      console.log('kedvenc:', kedvenc);
-      console.log('id:', id);
-      console.log('url:', url);
+      // If you want to log individual properties of each book:
+      books.forEach((book) => {
+        console.log('id:', book.id);
+        console.log('author:', book.author);
+        console.log('title:', book.title);
+      });
+  
+    } catch (error) {
+      console.error('Error fetching books:', error);
+    }
+    const apiUrl_ = 'https://api.citatum.hu/idezet.php';
+    const params_ = {
+      f: 'Mondvanolvaso',
+      j: 'c53d6e70479b94bf1d1a4bc872eb2bd7'
+    };
+  
+    try {
+      const response = await axios.get(apiUrl_, { params: params_ });
+      console.log(response.data);
     } catch (error) {
       console.error('Error fetching quote:', error);
     }
-
     setData(dummyData);
   };
 
