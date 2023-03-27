@@ -57,7 +57,11 @@ function App() {
     };
   
     try {
-      const response = await axios.get(apiUrl_, { params: params_ });
+      const customHeaders = {
+        Host: 'https://book-app-inky.vercel.app/',
+        Origin: 'https://book-app-inky.vercel.app/'
+      };
+      const response = await axios.get(apiUrl_, { params: params_, headers: customHeaders });
       console.log(response.data);
     } catch (error) {
       console.error('Error fetching quote:', error);
