@@ -1,7 +1,21 @@
-.App {
-  text-align: center;
+body {
+  background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
 }
 
-#search-input {
-  width: 50%;
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.card-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.card-item {
+  max-width: 540px;
+  margin: 10px;
 }
