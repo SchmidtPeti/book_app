@@ -49,19 +49,49 @@ export const getQuote = async (konyv) => {
     }
 };
 export const searchMolyBooks = async (searchTerm) => {
-    const apiUrl = 'https://moly.hu/api/books.json';
-    const params = {
-      q: searchTerm,
-      key: '82bcbc88494e224498b951657083bb4d',
-    };
-  
-    try {
-      const response = await axios.get(apiUrl, { params: params });
-      return response.data.books;
-    } catch (error) {
-      console.error('Error fetching books:', error);
-      return [];
-    }
-  };
+  try {
+    const response = await fetch(
+      `https://moly.hu/api/books.json?q=${encodeURIComponent(
+        searchTerm
+      )}&key=82bcbc88494e224498b951657083bb4d`
+    );
+    const data = await response.json();
+
+    const booksDataPromises = data.books.map(async (book) => {
+      const bookDetailsResponse = await fetch(
+        `https://moly.hu/api/book/${book.id}.json?key=82bcbc88494e224498b951657083bb4d`
+      );
+      const bookDetailsData = await bookDetailsResponse.json();
+
+      const bookCitationsResponse = await fetch(
+        `https://moly.hu/api/book_citations/${book.id}.json?key=82bcbc88494e224498b951657083bb4d`
+      );
+      const bookCitationsData = await bookCitationsResponse.json();
+
+      const bookReviewsResponse = await fetch(
+        `https://moly.hu/api/book_reviews/${book.id}.json?key=82bcbc88494e224498b951657083bb4d`
+      );
+      const bookReviewsData = await bookReviewsResponse.json();
+
+      return {
+        id: book.id,
+        author: book.author,
+        title: book.title,
+        cover: bookDetailsData.book.cover,
+        description: bookDetailsData.book.description,
+        url: bookDetailsData.book.url,
+        citations: bookCitationsData.citations,
+        reviews: bookReviewsData.reviews,
+      };
+    });
+
+    const booksData = await Promise.all(booksDataPromises);
+    return booksData;
+  } catch (error) {
+    console.error("Error fetching Moly.hu data:", error);
+    return [];
+  }
+};
+
 
 // Add more functions as needed...
