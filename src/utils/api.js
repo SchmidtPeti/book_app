@@ -5,7 +5,7 @@ import { parseQuoteResponse } from './parser';
 export const getQuote = async (konyv) => {
     const apiUrl = '/idezet.php';
     const params = {
-      konyv: konyv,
+      konyv:konyv,
       f: 'Mondvanolvaso',
       j: 'c53d6e70479b94bf1d1a4bc872eb2bd7',
       db: 5
