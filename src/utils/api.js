@@ -3,7 +3,6 @@ import { parseQuoteResponse } from './parser';
 
 
 export const getQuote = async (konyv) => {
-  console.log("hello world")
     const apiUrl = '/idezet.php';
     const params = {
       konyv: konyv,
@@ -15,6 +14,7 @@ export const getQuote = async (konyv) => {
     try {
       const response = await axios.get(apiUrl, { params: params });
       const idezetek = parseQuoteResponse(response.data);
+      console.log("idezetek",idezetek)
       return idezetek; // Return the full array of quotes
     } catch (error) {
       console.error('Error fetching quote:', error);
