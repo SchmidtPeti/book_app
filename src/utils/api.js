@@ -3,6 +3,7 @@ import { parseQuoteResponse } from './parser';
 
 
 export const getQuote = async (konyv) => {
+  console.log("hello world")
     const apiUrl = '/idezet.php';
     const params = {
       konyv: konyv,
