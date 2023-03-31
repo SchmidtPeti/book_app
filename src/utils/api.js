@@ -3,7 +3,7 @@ import { parseQuoteResponse } from './parser';
 
 
 export const getQuote = async (konyv) => {
-    const apiUrl = '/idezet.php';
+    const apiUrl = 'https://api.citatum.hu/idezet.php';
     const params = {
       konyv:konyv,
       f: 'Mondvanolvaso',
