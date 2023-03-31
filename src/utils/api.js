@@ -3,11 +3,11 @@ import { parseQuoteResponse } from './parser';
 
 
 export const getQuote = async (konyv) => {
-    const apiUrl = 'https://citatum-api.herokuapp.com/idezet.php';
+  const apiUrl = `${process.env.REACT_APP_API_BASE_URL}/idezet.php`;
     const params = {
       konyv:konyv,
-      f: 'Mondvanolvaso',
-      j: 'c53d6e70479b94bf1d1a4bc872eb2bd7',
+      f: process.env.REACT_APP_IDEZET_API_F,
+      j: process.env.REACT_APP_IDEZET_API_J,
       db: 5
     };
   
@@ -33,7 +33,7 @@ export const searchMolyBooks = async (searchTerm) => {
     const response = await fetch(
       `https://moly.hu/api/books.json?q=${encodeURIComponent(
         searchTerm
-      )}&key=82bcbc88494e224498b951657083bb4d`
+      )}&key=${process.env.REACT_APP_MOLY_API_KEY}`
     );
     const data = await response.json();
 
