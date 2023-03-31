@@ -2,11 +2,18 @@
 import React from 'react';
 import BookCard from './BookCard';
 import { useAppContext } from '../../context/AppContext';
-import { useLoadingContext } from '../../context/LoadingContext';
+import Spinner from '../../assets/Spinner.gif';
 
 const BookCards = () => {
-  const { data } = useAppContext();
-  const { loadingCitatum, loadingMoly, loadingGoogleBooks } = useLoadingContext();
+  const { data, loading } = useAppContext();
+
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <img src={Spinner} alt="Loading..." />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -14,9 +21,6 @@ const BookCards = () => {
         <BookCard
           key={item.id}
           item={item}
-          loadingCitatum={loadingCitatum}
-          loadingMoly={loadingMoly}
-          loadingGoogleBooks={loadingGoogleBooks}
         />
       ))}
     </>
