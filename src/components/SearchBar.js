@@ -1,7 +1,7 @@
 // src/components/SearchBar.js
 import React from 'react';
 import { useAppContext } from '../context/AppContext';
-import { searchGoogleBooks, getQuote, searchMolyBooks } from '../utils/api';
+import { getQuote, searchMolyBooks } from '../utils/api';
 
 const SearchBar = () => {
   const {
@@ -18,22 +18,18 @@ const SearchBar = () => {
       return quotes;
     });
   
-    const thumbnailPromise = searchGoogleBooks(searchTerm).then((thumbnail) => {
+    /*const thumbnailPromise = searchGoogleBooks(searchTerm).then((thumbnail) => {
       return thumbnail;
-    });
+    });*/
   
     const booksPromise = searchMolyBooks(searchTerm).then((books) => {
       return books;
     });
   
-    const [quotes, thumbnail, books] = await Promise.all([
+    const [quotes, books] = await Promise.all([
       quotesPromise,
-      thumbnailPromise,
       booksPromise,
     ]);
-    console.log(quotes)
-    console.log(thumbnail)
-    console.log(books)
   
     const bookData = [];
   
@@ -41,15 +37,15 @@ const SearchBar = () => {
       bookData.push({
         id: book.id,
         title: `${book.title} by ${book.author}`,
-        image: thumbnail,
         quotes: quotes,
         score: 0,
-        author: book.author, // Add this line
-        cover: book.cover, // Add this line
-        description: book.description, // Add this line
-        url: book.url, // Add this line
-        citations: book.citations, // Add this line
-        reviews: book.reviews, // Add this line
+        author: book.author,
+        cover: book.cover,
+        description: book.description,
+        url: book.url,
+        citations: book.citations,
+        reviews: book.reviews,
+        editions: book.editions, // Add this line
       });
     }
   

@@ -3,11 +3,18 @@ import BookCover from './BookCover';
 import BookHeader from './BookHeader';
 import BookDetails from './BookDetails';
 import BookQuotes from './BookQuotes';
+import BookEditions from './BookEditions';
+import BookReviews from './BookReviews';
 
 const BookCard = ({ item, loadingCitatum, loadingMoly }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [openSections, setOpenSections] = useState({});
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 
-  const toggle = () => setIsOpen(!isOpen);
+
+  const toggleDetails = () => setIsDetailsOpen(!isDetailsOpen);
+
+  const toggleSection = (section) =>
+    setOpenSections({ ...openSections, [section]: !openSections[section] });
 
   return (
     <div className="card mb-3 card-item">
@@ -18,15 +25,48 @@ const BookCard = ({ item, loadingCitatum, loadingMoly }) => {
         <div className="col-md-8">
           <div className="card-body">
             <BookHeader item={item} loadingMoly={loadingMoly} />
+            <div className="mt-3">{item.description}</div>
             <button
-              className="btn btn-primary"
+              className="btn btn-primary w-100 my-2"
               type="button"
-              onClick={toggle}
+              onClick={() => toggleSection('quotes')}
             >
-              {isOpen ? 'Hide Details' : 'Show Details'}
+              {openSections.quotes ? 'Hide Quotes' : 'Show Quotes'}
             </button>
-            {isOpen && <BookDetails item={item} />}
-            <BookQuotes loadingCitatum={loadingCitatum} quotes={item.quotes} />
+            {openSections.quotes && (
+              <BookQuotes
+                loadingCitatum={loadingCitatum}
+                quotes={item.quotes}
+              />
+            )}
+            <button
+                className="btn btn-primary w-100 my-2"
+                type="button"
+                onClick={toggleDetails}
+              >
+                {isDetailsOpen ? 'Hide Citations' : 'Show Citations'}
+              </button>
+              {isDetailsOpen && <BookDetails item={item} />}
+            <button
+              className="btn btn-primary w-100 my-2"
+              type="button"
+              onClick={() => toggleSection('editions')}
+            >
+              {openSections.editions ? 'Hide Editions' : 'Show Editions'}
+            </button>
+            {openSections.editions && (
+              <BookEditions editions={item.editions} />
+            )}
+            <button
+              className="btn btn-primary w-100 my-2"
+              type="button"
+              onClick={() => toggleSection('reviews')}
+            >
+              {openSections.reviews ? 'Hide Reviews' : 'Show Reviews'}
+            </button>
+            {openSections.reviews && (
+              <BookReviews reviews={item.reviews} />
+            )}
           </div>
         </div>
       </div>

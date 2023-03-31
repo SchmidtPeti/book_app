@@ -1,34 +1,6 @@
 import axios from 'axios';
 import { parseQuoteResponse } from './parser';
 
-export const searchGoogleBooks = async (title) => {
-    const apiKey = 'AIzaSyDiwFBQOy1taS92EVFPIlV8o8x8GZvSPGI';
-    const apiUrl = 'https://www.googleapis.com/books/v1/volumes';
-  
-    try {
-      const response = await axios.get(apiUrl, {
-        params: {
-          q: title,
-          key: apiKey,
-          maxResults: 1,
-          orderBy: "newest",
-        },
-      });
-  
-      const items = response.data.items;
-      console.log(items);
-  
-      if (items && items.length > 0) {
-        const thumbnailUrl = items[0].volumeInfo.imageLinks.thumbnail;
-        return thumbnailUrl;
-      } else {
-        console.log('No results found.');
-      }
-    } catch (error) {
-      console.error('Error searching Google Books:', error);
-    }
-    return null;
-};
 
 export const getQuote = async (konyv) => {
     const apiUrl = '/idezet.php';
@@ -57,41 +29,50 @@ export const searchMolyBooks = async (searchTerm) => {
     );
     const data = await response.json();
 
-    const booksDataPromises = data.books.map(async (book) => {
-      const bookDetailsResponse = await fetch(
-        `https://moly.hu/api/book/${book.id}.json?key=82bcbc88494e224498b951657083bb4d`
-      );
-      const bookDetailsData = await bookDetailsResponse.json();
+    const mainBooks = [];
 
-      const bookCitationsResponse = await fetch(
-        `https://moly.hu/api/book_citations/${book.id}.json?key=82bcbc88494e224498b951657083bb4d`
-      );
-      const bookCitationsData = await bookCitationsResponse.json();
+    for (const book of data.books) {
+      const quotes = await getQuote(book.title);
 
-      const bookReviewsResponse = await fetch(
-        `https://moly.hu/api/book_reviews/${book.id}.json?key=82bcbc88494e224498b951657083bb4d`
-      );
-      const bookReviewsData = await bookReviewsResponse.json();
+      if (quotes.length > 0) {
+        const bookDetailsResponse = await fetch(
+          `https://moly.hu/api/book/${book.id}.json?key=82bcbc88494e224498b951657083bb4d`
+        );
+        const bookDetailsData = await bookDetailsResponse.json();
 
-      return {
-        id: book.id,
-        author: book.author,
-        title: book.title,
-        cover: bookDetailsData.book.cover,
-        description: bookDetailsData.book.description,
-        url: bookDetailsData.book.url,
-        citations: bookCitationsData.citations,
-        reviews: bookReviewsData.reviews,
-      };
-    });
+        const bookCitationsResponse = await fetch(
+          `https://moly.hu/api/book_citations/${book.id}.json?key=82bcbc88494e224498b951657083bb4d`
+        );
+        const bookCitationsData = await bookCitationsResponse.json();
 
-    const booksData = await Promise.all(booksDataPromises);
-    return booksData;
+        const bookReviewsResponse = await fetch(
+          `https://moly.hu/api/book_reviews/${book.id}.json?key=82bcbc88494e224498b951657083bb4d`
+        );
+        const bookReviewsData = await bookReviewsResponse.json();
+
+        const bookEditionsResponse = await fetch(
+          `https://moly.hu/api/book_editions/${book.id}.json?key=82bcbc88494e224498b951657083bb4d`
+        );
+        const bookEditionsData = await bookEditionsResponse.json();
+
+        mainBooks.push({
+          id: book.id,
+          author: book.author,
+          title: book.title,
+          cover: bookDetailsData.book.cover,
+          description: bookDetailsData.book.description,
+          url: bookDetailsData.book.url,
+          citations: bookCitationsData.citations,
+          reviews: bookReviewsData.reviews,
+          editions: bookEditionsData.editions,
+          quotes: quotes,
+        });
+      }
+    }
+
+    return mainBooks;
   } catch (error) {
     console.error("Error fetching Moly.hu data:", error);
     return [];
   }
 };
-
-
-// Add more functions as needed...

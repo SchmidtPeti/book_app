@@ -7,14 +7,24 @@ const BookQuotes = ({ loadingCitatum, quotes }) => {
       <img src={Spinner} alt="Loading Citatum..." />
     </div>
   ) : (
-    quotes.map((quote, index) => (
-      <div key={index} className="card-text mb-3">
-        <blockquote className="blockquote">
-          <p>{quote.idezetszoveg}</p>
-          <footer className="blockquote-footer">{quote.szerzo}</footer>
-        </blockquote>
-      </div>
-    ))
+    <div className="mt-3">
+      <table className="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Quote</th>
+            <th scope="col">Author</th>
+          </tr>
+        </thead>
+        <tbody>
+          {quotes.map((quote, index) => (
+            <tr key={index}>
+              <td>{quote.idezetszoveg}</td>
+              <td>{quote.szerzo}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 

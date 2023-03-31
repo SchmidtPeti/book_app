@@ -10,15 +10,12 @@ export const useLoadingContext = () => {
 export const LoadingProvider = ({ children }) => {
   const [loadingCitatum, setLoadingCitatum] = useState(false);
   const [loadingMoly, setLoadingMoly] = useState(false);
-  const [loadingGoogleBooks, setLoadingGoogleBooks] = useState(false);
 
   const value = {
     loadingCitatum,
     setLoadingCitatum,
     loadingMoly,
     setLoadingMoly,
-    loadingGoogleBooks,
-    setLoadingGoogleBooks,
   };
 
   return (
