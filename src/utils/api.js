@@ -12,6 +12,13 @@ export const getQuote = async (konyv) => {
     };
   
     try {
+      const urlWithParams = new URL(apiUrl, window.location.origin);
+      Object.entries(params).forEach(([key, value]) =>
+        urlWithParams.searchParams.append(key, value)
+      );
+    
+      // Log the full URL
+      console.log('URL sent to the API:', urlWithParams.href);
       const response = await axios.get(apiUrl, { params: params });
       const idezetek = parseQuoteResponse(response.data);
       console.log("idezetek",idezetek)
