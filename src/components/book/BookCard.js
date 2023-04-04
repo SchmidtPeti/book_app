@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import BookCover from './BookCover';
 import BookHeader from './BookHeader';
-import BookDetails from './BookDetails';
+import BookCitations from './BookCitations';
 import BookQuotes from './BookQuotes';
 import BookEditions from './BookEditions';
 import BookReviews from './BookReviews';
@@ -10,11 +10,18 @@ const BookCard = ({ item, loadingCitatum, loadingMoly }) => {
   const [openSections, setOpenSections] = useState({});
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 
-
   const toggleDetails = () => setIsDetailsOpen(!isDetailsOpen);
 
   const toggleSection = (section) =>
     setOpenSections({ ...openSections, [section]: !openSections[section] });
+
+  const calculateAveragePage = (editions) => {
+    let total = 0;
+    editions.forEach((edition) => {
+      total += edition.pages;
+    });
+    return Math.round(total / editions.length);
+  };
 
   return (
     <div className="card mb-3 card-item">
@@ -26,6 +33,8 @@ const BookCard = ({ item, loadingCitatum, loadingMoly }) => {
           <div className="card-body">
             <BookHeader item={item} loadingMoly={loadingMoly} />
             <div className="mt-3">{item.description}</div>
+            <div>Score: {item.score}</div>
+            <div>Average page: {calculateAveragePage(item.editions)}</div>
             <button
               className="btn btn-primary w-100 my-2"
               type="button"
@@ -40,13 +49,13 @@ const BookCard = ({ item, loadingCitatum, loadingMoly }) => {
               />
             )}
             <button
-                className="btn btn-primary w-100 my-2"
-                type="button"
-                onClick={toggleDetails}
-              >
-                {isDetailsOpen ? 'Hide Citations' : 'Show Citations'}
-              </button>
-              {isDetailsOpen && <BookDetails item={item} />}
+              className="btn btn-primary w-100 my-2"
+              type="button"
+              onClick={toggleDetails}
+            >
+              {isDetailsOpen ? 'Hide Citations' : 'Show Citations'}
+            </button>
+            {isDetailsOpen && <BookCitations item={item} />}
             <button
               className="btn btn-primary w-100 my-2"
               type="button"
@@ -64,9 +73,7 @@ const BookCard = ({ item, loadingCitatum, loadingMoly }) => {
             >
               {openSections.reviews ? 'Hide Reviews' : 'Show Reviews'}
             </button>
-            {openSections.reviews && (
-              <BookReviews reviews={item.reviews} />
-            )}
+            {openSections.reviews && <BookReviews reviews={item.reviews} />}
           </div>
         </div>
       </div>
@@ -75,3 +82,4 @@ const BookCard = ({ item, loadingCitatum, loadingMoly }) => {
 };
 
 export default BookCard;
+

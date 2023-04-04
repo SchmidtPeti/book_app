@@ -1,25 +1,23 @@
 import React from 'react';
-import Spinner from '../../assets/Spinner.gif'
 
-const BookQuotes = ({ loadingCitatum, quotes }) => {
-  return loadingCitatum ? (
-    <div className="spinner-container">
-      <img src={Spinner} alt="Loading Citatum..." />
-    </div>
-  ) : (
-    <div className="mt-3">
-      <table className="table table-striped">
+const BookQuotes = ({ quotes }) => {
+  return (
+    <div className="my-3">
+      <h4>Quotes</h4>
+      <table className="table">
         <thead>
           <tr>
             <th scope="col">Quote</th>
             <th scope="col">Author</th>
+            <th scope="col">Favorite</th>
           </tr>
         </thead>
         <tbody>
-          {quotes.map((quote, index) => (
-            <tr key={index}>
+          {quotes.map((quote) => (
+            <tr key={quote.id}>
               <td>{quote.idezetszoveg}</td>
               <td>{quote.szerzo}</td>
+              <td>{quote.kedvenc}</td>
             </tr>
           ))}
         </tbody>

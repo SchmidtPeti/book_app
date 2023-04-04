@@ -1,37 +1,34 @@
 import React from 'react';
 
-const BookEditions = ({ editions }) => {
+const BookCitations = ({ item }) => {
+  console.log(item.citations)
   return (
     <div className="mt-3">
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">Year</th>
-            <th scope="col">Publisher</th>
-            <th scope="col">Place</th>
-            <th scope="col">Pages</th>
-            <th scope="col">ISBN</th>
-            <th scope="col">Cover</th>
-          </tr>
-        </thead>
-        <tbody>
-          {editions &&
-            editions.map((edition, index) => (
-              <tr key={index}>
-                <td>{edition.year}</td>
-                <td>{edition.publisher}</td>
-                <td>{edition.place}</td>
-                <td>{edition.pages}</td>
-                <td>{edition.isbn}</td>
-                <td>
-                  <img src={edition.cover} alt="Edition Cover" height="100" />
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
+      <a href={item.url} target="_blank" rel="noopener noreferrer">
+        More on Moly
+      </a>
+      <h6>Citations:</h6>
+      <div className="table-responsive">
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Citation</th>
+            </tr>
+          </thead>
+          <tbody>
+            {item.citations &&
+              item.citations.map((citation, index) => (
+                <tr key={index}>
+                  <th scope="row">{index + 1}</th>
+                  <td>{citation.citation}</td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
 
-export default BookEditions;
+export default BookCitations;
