@@ -14,7 +14,6 @@ const BookHeader = ({ item, loadingMoly }) => {
     <>
       <h5 className="card-title">{item.title}</h5>
       <p className="card-text">Author: {item.author}</p>
-      <p className="card-text">Score: {item.score}</p>
     </>
   );
 };

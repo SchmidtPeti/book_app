@@ -15,6 +15,7 @@ export const AppContextProvider = ({ children }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [notFoundSearch,setnotFoundSearch] = useState(false)
 
   const updateData = (newData) => {
     setData(newData);
@@ -27,6 +28,8 @@ export const AppContextProvider = ({ children }) => {
     updateData,
     loading,
     setLoading,
+    notFoundSearch,
+    setnotFoundSearch
   };
 
   return <AppContext.Provider value={values}>{children}</AppContext.Provider>;

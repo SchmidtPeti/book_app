@@ -32,9 +32,10 @@ const BookCard = ({ item, loadingCitatum, loadingMoly }) => {
         <div className="col-md-8">
           <div className="card-body">
             <BookHeader item={item} loadingMoly={loadingMoly} />
-            <div className="mt-3">{item.description}</div>
             <div>Score: {item.score}</div>
+            <div>Category: {item.categories.length}</div>
             <div>Average page: {calculateAveragePage(item.editions)}</div>
+            <div className="mt-3">{item.description}</div>
             <button
               className="btn btn-primary w-100 my-2"
               type="button"

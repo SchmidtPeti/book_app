@@ -31,43 +31,12 @@ export const getQuote = async (konyv) => {
       return []; // Return an empty array if there's an error
     }
 };
-export const checkBookQuotes = async (konyv) => {
-  const apiUrl = `${process.env.REACT_APP_API_BASE_URL}/idezet.php`;
-  const params = {
-    konyv: konyv,
-    f: process.env.REACT_APP_IDEZET_API_F,
-    j: process.env.REACT_APP_IDEZET_API_J,
-  };
-
-  try {
-    const urlWithParams = new URL(apiUrl, window.location.origin);
-    Object.entries(params).forEach(([key, value]) =>
-      urlWithParams.searchParams.append(key, value)
-    );
-
-    // Log the full URL
-    console.log("URL sent to the API big momy:", urlWithParams.href);
-    const response = await axios.get(apiUrl, { params: params });
-    const idezetek = parseQuoteResponse(response.data);
-    console.log("idezetek", idezetek);
-    if (idezetek.length > 0) {
-      return idezetek[0];
-    } else {
-      return null;
-    }
-  } catch (error) {
-    console.error("Error fetching quote:", error);
-    return null; // Return null if there's an error or no quotes returned
-  }
-};
 // Updated checkBooks function
-const checkBooks = async (books) => {
+const checkBooks = async (books,forras,szerzo) => {
   for (const book of books) {
-    const quoteCheckResult = await checkBookQuotes(book.title);
     if (
-      quoteCheckResult !== null &&
-      quoteCheckResult.forras === book.title &&
-      quoteCheckResult.szerzo === book.author
+      forras === book.title &&
+      szerzo === book.author
     ) {
       return book; // Return the matched book
     }
@@ -76,22 +45,22 @@ const checkBooks = async (books) => {
 };
 
 // Updated searchMolyBooks function
-export const searchMolyBooks = async (searchTerm) => {
+export const searchMolyBooks = async (forras, szerzo,quotes) => {
   try {
     const response = await fetch(
       `https://moly.hu/api/books.json?q=${encodeURIComponent(
-        searchTerm
+        szerzo + ' ' + forras
       )}&key=${process.env.REACT_APP_MOLY_API_KEY}`
     );
     const data = await response.json();
-
-    const matchedBook = await checkBooks(data.books);
+    console.log("moly back",data)
+    
+    const matchedBook = await checkBooks(data.books,forras,szerzo);
 
     if (!matchedBook) {
       return [];
     }
 
-    const quotes = await getQuote(matchedBook.title);
     const bookDetailsResponse = await fetch(
       `https://moly.hu/api/book/${matchedBook.id}.json?key=${process.env.REACT_APP_MOLY_API_KEY}`
     );
@@ -122,7 +91,7 @@ export const searchMolyBooks = async (searchTerm) => {
       citations: bookCitationsData.citations,
       reviews: bookReviewsData.reviews,
       editions: bookEditionsData.editions,
-      quotes: quotes,
+      categories: quotes.map(quote => quote.kategoria),
     };
 
     return [mainBook];
