@@ -91,12 +91,39 @@ export const searchMolyBooks = async (forras, szerzo,quotes) => {
       citations: bookCitationsData.citations,
       reviews: bookReviewsData.reviews,
       editions: bookEditionsData.editions,
-      categories: quotes.map(quote => quote.kategoria),
+      categories : [...new Set(quotes.map(quote => quote.kategoria))]
     };
 
     return [mainBook];
   } catch (error) {
     console.error("Error fetching Moly.hu data:", error);
+    return [];
+  }
+};
+export const fetchQuotesByCategory = async (category) => {
+  const apiUrl = `${process.env.REACT_APP_API_BASE_URL}/idezet.php`;
+  const params = {
+    konyv: category,
+    f: process.env.REACT_APP_IDEZET_API_F,
+    j: process.env.REACT_APP_IDEZET_API_J,
+    db: 1,
+    kat: category,
+    rendez: 'kedvencek',
+    honnan: 0,
+    rendez_ir: 1,
+  };
+
+  try {
+    const urlWithParams = new URL(apiUrl, window.location.origin);
+    Object.entries(params).forEach(([key, value]) =>
+      urlWithParams.searchParams.append(key, value)
+    );
+
+    const response = await axios.get(apiUrl, { params: params });
+    const idezetek = parseQuoteResponse(response.data); // Make sure to define the 'parseQuoteResponse' function
+    return idezetek;
+  } catch (error) {
+    console.error('Error fetching quotes:', error);
     return [];
   }
 };

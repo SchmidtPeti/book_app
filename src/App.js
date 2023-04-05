@@ -1,26 +1,28 @@
+// App.js
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import SearchBar from './components/SearchBar';
-import BookCards from './components/book/BookCards';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import BookSearch from './pages/BookSearch';
+import BookRecommendation from './pages/BookRecommendation';
 import { AppContextProvider } from './context/AppContext';
 import { LoadingProvider } from './context/LoadingContext';
-
+import HomePage from './pages/HomePage';
+import BackToHomeButton from './components/BackToHomeButton';
 
 function App() {
   return (
     <AppContextProvider>
-            <LoadingProvider>
-      <div className="container">
-        <div className="row">
-          <div className="col-12 text-center">
-            <h1 className="mt-4">Könyv keresés</h1>
-          </div>
-          <SearchBar />
-          <BookCards />
-        </div>
-      </div>
-            </LoadingProvider>
+      <LoadingProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/book-search" element={<BookSearch />} />
+            <Route path="/book-recommendation" element={<BookRecommendation />} />
+          </Routes>
+          <BackToHomeButton />
+        </Router>
+      </LoadingProvider>
     </AppContextProvider>
   );
 }

@@ -6,6 +6,7 @@ import BookQuotes from './BookQuotes';
 import BookEditions from './BookEditions';
 import BookReviews from './BookReviews';
 
+
 const BookCard = ({ item, loadingCitatum, loadingMoly }) => {
   const [openSections, setOpenSections] = useState({});
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
@@ -33,7 +34,14 @@ const BookCard = ({ item, loadingCitatum, loadingMoly }) => {
           <div className="card-body">
             <BookHeader item={item} loadingMoly={loadingMoly} />
             <div>Score: {item.score}</div>
-            <div>Category: {item.categories.length}</div>
+            <div>
+                {item.categories.length > 0 &&
+                  item.categories.map((category, index) => (
+                    <span key={index} className="badge bg-secondary me-2">
+                      {category}
+                    </span>
+                  ))}
+            </div>      
             <div>Average page: {calculateAveragePage(item.editions)}</div>
             <div className="mt-3">{item.description}</div>
             <button
