@@ -101,13 +101,13 @@ export const searchMolyBooks = async (forras, szerzo,quotes) => {
   }
 };
 export const fetchQuotesByCategory = async (category) => {
+  console.log(category)
   const apiUrl = `${process.env.REACT_APP_API_BASE_URL}/idezet.php`;
   const params = {
-    konyv: category,
     f: process.env.REACT_APP_IDEZET_API_F,
     j: process.env.REACT_APP_IDEZET_API_J,
-    db: 1,
-    kat: category,
+    db: 5,
+    kat: category, // Remove 'encodeURIComponent' here
     rendez: 'kedvencek',
     honnan: 0,
     rendez_ir: 1,
@@ -118,6 +118,7 @@ export const fetchQuotesByCategory = async (category) => {
     Object.entries(params).forEach(([key, value]) =>
       urlWithParams.searchParams.append(key, value)
     );
+    console.log(urlWithParams.toString());
 
     const response = await axios.get(apiUrl, { params: params });
     const idezetek = parseQuoteResponse(response.data); // Make sure to define the 'parseQuoteResponse' function
@@ -127,4 +128,5 @@ export const fetchQuotesByCategory = async (category) => {
     return [];
   }
 };
+
 
