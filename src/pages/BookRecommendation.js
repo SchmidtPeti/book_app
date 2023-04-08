@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { categories } from '../data/categories';
 import { fetchQuotesByCategory } from '../utils/api';
 import { useAppContext } from '../context/AppContext';
-import { searchMolyBooks } from '../utils/api';
 import BookCards from '../components/book/BookCards';
-import { getQuote } from '../utils/api';
 import PageHeader from '../components/PageHeader';
 import BookRecommendationForm from '../components/BookRecommendationForm';
+import { fetchBooks } from '../utils/fetchBooks';
 
 
 const BookRecommendation = () => {
@@ -40,30 +39,8 @@ const BookRecommendation = () => {
   
     console.log('All quotes from selected categories:', allQuotes);
   
-    const bookData = [];
-  
-    for (const quote of allQuotes) {
-      if (quote.szerzo!=='' && quote.forras!=='') {
-        const books = await searchMolyBooks(quote.forras, quote.szerzo, allQuotes);
-        const quotes = await getQuote(quote.forras);
-        for (const book of books) {
-          bookData.push({
-            id: book.id,
-            title: `${book.title} by ${book.author}`,
-            quotes: quotes,
-            score: 0,
-            author: book.author,
-            cover: book.cover,
-            description: book.description,
-            url: book.url,
-            citations: book.citations,
-            reviews: book.reviews,
-            editions: book.editions,
-            categories: book.categories,
-          });
-        }
-      }
-    }
+    const bookData = await fetchBooks(allQuotes, allQuotes);
+
   
     if (bookData.length > 0) {
       updateData(bookData);

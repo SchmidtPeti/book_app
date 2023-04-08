@@ -1,5 +1,5 @@
 // src/context/AppContext.js
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext, useCallback } from 'react';
 
 const AppContext = createContext();
 
@@ -17,9 +17,9 @@ export const AppContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [notFoundSearch,setnotFoundSearch] = useState(false)
 
-  const updateData = (newData) => {
+  const updateData = useCallback((newData) => {
     setData(newData);
-  };
+  },[]);
 
   const values = {
     searchTerm,

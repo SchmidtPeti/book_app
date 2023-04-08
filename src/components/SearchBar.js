@@ -1,12 +1,13 @@
 // src/components/SearchBar.js
 import React, { useState, useEffect,useMemo  } from 'react';
 import { useAppContext } from '../context/AppContext';
-import { getQuote, searchMolyBooks } from '../utils/api';
+import { getQuote } from '../utils/api';
 import { ifj_irodalom } from '../data/ifj_irodalom';
 import { kotelezo_olvasmany } from '../data/kotelezo_olvasmany';
 import { magyar_szepirodalom } from '../data/magyar_szepirodalom';
 import { regeny } from '../data/regeny';
 import { vilagirodalom } from '../data/vilagirodalom';
+import { fetchBooks } from '../utils/fetchBooks';
 
 const SearchBar = () => {
   const {
@@ -54,27 +55,9 @@ const SearchBar = () => {
     const quotes = await getQuote(searchTerm);
   
     if (quotes.length > 0) {
-      const firstQuote = quotes[0];
-      const books = await searchMolyBooks(firstQuote.forras, firstQuote.szerzo,quotes);
+      const firstQuote = [quotes[0]];
   
-      const bookData = [];
-  
-      for (const book of books) {
-        bookData.push({
-          id: book.id,
-          title: `${book.title} by ${book.author}`,
-          quotes: quotes,
-          score: 0,
-          author: book.author,
-          cover: book.cover,
-          description: book.description,
-          url: book.url,
-          citations: book.citations,
-          reviews: book.reviews,
-          editions: book.editions,
-          categories: book.categories
-        });
-      }
+      const bookData = await fetchBooks(firstQuote);
   
       updateData(bookData);
       setLoading(false);
