@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import BookCover from './BookCover';
 import BookHeader from './BookHeader';
 import BookCitations from './BookCitations';
 import BookQuotes from './BookQuotes';
 import BookEditions from './BookEditions';
 import BookReviews from './BookReviews';
+import { AuthContext } from "../../context/AuthContext";
+
 
 
 const BookCard = ({ item, loadingCitatum, loadingMoly }) => {
   const [openSections, setOpenSections] = useState({});
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const { currentUser } = useContext(AuthContext);
+
 
   const toggleDetails = () => setIsDetailsOpen(!isDetailsOpen);
 
@@ -23,6 +27,14 @@ const BookCard = ({ item, loadingCitatum, loadingMoly }) => {
     });
     return Math.round(total / editions.length);
   };
+  const handleAddButtonClick = () => {
+    // Save the book data for the user
+    // You can implement the logic to save the data to your preferred storage (e.g., Firebase Realtime Database or Firestore)
+    console.log("User ID:", currentUser.uid);
+    console.log("Book title:", item.title);
+    console.log("Page count:", 0);
+    console.log("Average page:", calculateAveragePage(item.editions));
+  };
 
   return (
     <div className="card mb-3 card-item">
@@ -32,6 +44,14 @@ const BookCard = ({ item, loadingCitatum, loadingMoly }) => {
         </div>
         <div className="col-md-8">
           <div className="card-body">
+            {currentUser && (
+              <button
+                className="btn btn-success mb-3 float-end"
+                onClick={handleAddButtonClick}
+              >
+                Add
+              </button>
+            )}
             <BookHeader item={item} loadingMoly={loadingMoly} />
             <div>Score: {item.score}</div>
             <div>
