@@ -5,7 +5,6 @@ import { AuthContext } from "../context/AuthContext";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 
-
 const Navbar = () => {
   const { currentUser } = useContext(AuthContext);
 
@@ -38,6 +37,11 @@ const Navbar = () => {
                 {currentUser.displayName || currentUser.email}
               </button>
               <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li>
+                  <Link className="dropdown-item" to="/my-books">
+                    My Books
+                  </Link>
+                </li>
                 <li>
                   <button className="dropdown-item" onClick={handleLogout}>
                     Logout

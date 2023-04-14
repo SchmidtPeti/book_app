@@ -13,6 +13,8 @@ import { AuthProvider } from './context/AuthContext';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Navbar from './components/Navbar';
+import MyBooks from './pages/MyBooks';
+import AddBook from './pages/AddBook';
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
               <Route path="/book-recommendation" element={<BookRecommendation />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/my-books" element={<MyBooks />} />
+              <Route path="/my-books/add" element={<AddBook />} />
             </Routes>
             <BackToHomeButton />
           </Router>

@@ -6,14 +6,12 @@ import BookQuotes from './BookQuotes';
 import BookEditions from './BookEditions';
 import BookReviews from './BookReviews';
 import { AuthContext } from "../../context/AuthContext";
-
-
+import { getFirestore, collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 const BookCard = ({ item, loadingCitatum, loadingMoly }) => {
   const [openSections, setOpenSections] = useState({});
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const { currentUser } = useContext(AuthContext);
-
 
   const toggleDetails = () => setIsDetailsOpen(!isDetailsOpen);
 
@@ -27,13 +25,23 @@ const BookCard = ({ item, loadingCitatum, loadingMoly }) => {
     });
     return Math.round(total / editions.length);
   };
-  const handleAddButtonClick = () => {
-    // Save the book data for the user
-    // You can implement the logic to save the data to your preferred storage (e.g., Firebase Realtime Database or Firestore)
-    console.log("User ID:", currentUser.uid);
-    console.log("Book title:", item.title);
-    console.log("Page count:", 0);
-    console.log("Average page:", calculateAveragePage(item.editions));
+  
+  const handleAddButtonClick = async () => {
+    const db = getFirestore();
+    const userBooksRef = collection(db, "books", currentUser.uid, "userBooks");
+    const bookData = {
+      title: item.title,
+      pageCount: 0,
+      averagePage: calculateAveragePage(item.editions),
+      addedAt: serverTimestamp()
+    };
+
+    try {
+      const docRef = await addDoc(userBooksRef, bookData);
+      console.log("Book added with ID:", docRef.id);
+    } catch (error) {
+      console.error("Error adding book:", error);
+    }
   };
 
   return (

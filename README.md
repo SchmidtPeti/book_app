@@ -11,20 +11,28 @@
 - [x] Felbontottam a projektet kisebb komponensekre
 - [x] Horogokat használtam az állapotkezeléshez és a prop drilling elkerüléséhez
 - [x] Létrehoztam egy proxy-t a Citatum API-hoz
+- [x] Megjelenítés: Citatum, oldalszám és kategória a kártyán
+- [x] Biztosítani, hogy csak egy könyvcím kerüljön lekérdezésre
+- [x] Regisztráció, bejelentkezés és könyvajánlás oldalak implementálása
+- [x] Felhasználó Navbar kijelentkezés dropdown lehetőséggel
+- [x] Regisztráció implementálása felhasználói adatokkal, bejelentkezéskor a felhasználónév megjelenítése
 
 ## Hátralévő feladatok
 
-- [ ] Megjelenítés: Citatum, oldalszám és kategória a kártyán
-- [ ] Biztosítani, hogy csak egy könyvcím kerüljön lekérdezésre
-- [ ] Regisztráció, bejelentkezés és könyvajánlás oldalak implementálása
-- [ ] 1-2 alapvető teszt írása
-- [ ] Részletes keresőfunkció létrehozása könyvajánlásokhoz, bemeneti validáció hozzáadása
-- [ ] Regisztráció implementálása felhasználói adatokkal, bejelentkezéskor a felhasználónév és profilkép megjelenítése
-- [ ] Funkció hozzáadása a könyvek mentéséhez a felhasználói profilban, a mentett könyvek megjelenítése címmel és borítóképpel
-- [ ] Keresési eredmények elemzése és egyedi pontszám létrehozása a könyvnek
-- [ ] Felhasználók számára lehetővé tenni a könyvek olvasását és események exportálását naptárba
+- [ ] Regisztrációhoz Google regisztrálás hozzáadása illetve a felhasználónév kiegészítése, felhasználó profilkép
+- [ ] Funkció hozzáadása a könyvek mentéséhez, dátummal a felhasználói profilban, a mentett könyvek megjelenítése címmel és borítóképpel
+- [ ] Könyvek olvasásának követésére lehetőség
+- [ ] A könyvekhez egy az oldalhoz egyéni érdeklési szám meghatározása
+- [ ] Egy könyvnek külön oldal létrehozása, ahová például a mentett könyvek irányít, de van lehetőség máshonnan is oda menni.
+- [ ] Egyéni könyvek hozzáadása a könyv olvasáshoz, amit esetleg az oldal nem ismer.
+- [ ] Értesítési rendszer
+- [ ] Felhasználók számára lehetővé tenni a könyvekekre haladási tervet meghatározni és annak eseményekeinek exportálását naptárba
+- [ ] Komponensek refaktorlása és a front-end megjelenő szöveg átírása magyarrá
+- [ ] Források megjelenítése, Moly és Citatum
 - [ ] Stílus javítása és további tesztek írása
-- [ ] Dokumentáció és tesztadat adatbázis
+- [ ] Error pages (without login saved books)
+- [ ] Dokumentáció és tesztadat adatbázis -> tesztek írása
+- [ ] Extra: mások is láthatják, hogy mennyien olvassák most azt a könyvet és hogyan haladnak vele
 
 [Az élő weboldal itt tekinthető meg](https://book-app-inky.vercel.app/)
 
