@@ -1,4 +1,8 @@
 import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { auth } from "../firebase";
+
+
 
 export const isUsernameUnique = async (username) => {
     const db = getFirestore();
@@ -17,4 +21,13 @@ export const isUsernameUnique = async (username) => {
       return false;
     }
 };
-  
+export const handleGoogleSignIn = async ({setError,navigate}) => {
+  const provider = new GoogleAuthProvider();
+
+  try {
+    await signInWithPopup(auth, provider);
+    navigate("/");
+  } catch (error) {
+    setError(error.message);
+  }
+}; 

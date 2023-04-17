@@ -1,0 +1,129 @@
+"{
+    "id": 15241,
+    "title": "Tüskevár by Fekete István",
+    "quotes": [
+        {
+            "idezetszoveg": "Ebben nem csalódsz. Nem beszél, hát nem is hazudik, nem ígér, mégis odaadja mindenét, nem szól, mégis többet mond, mint amit valaha ember mondott.",
+            "szerzo": "Fekete István",
+            "kategoria": "Természet",
+            "forras": "Tüskevár",
+            "kedvenc": "223",
+            "id": "6811",
+            "url": "https://www.citatum.hu/idezet/6811"
+        },
+        {
+            "idezetszoveg": "Sötétség nélkül semmi jelentősége nem lenne a világosságnak.",
+            "szerzo": "Fekete István",
+            "kategoria": "Mindennapok",
+            "forras": "Tüskevár",
+            "kedvenc": "56",
+            "id": "70635",
+            "url": "https://www.citatum.hu/idezet/70635"
+        },
+        {
+            "idezetszoveg": "A valóság is lehet olyan szép - sőt szebb! -, mint a hazug ábránd.",
+            "szerzo": "Fekete István",
+            "kategoria": "Igazság, Valóság",
+            "forras": "Tüskevár",
+            "kedvenc": "51",
+            "id": "24918",
+            "url": "https://www.citatum.hu/idezet/24918"
+        },
+        {
+            "idezetszoveg": "A boldogságot nem lehet megbeszélni, nem lehet megosztani, és nem lehet megtartani.",
+            "szerzo": "Fekete István",
+            "kategoria": "Boldogság",
+            "forras": "Tüskevár",
+            "kedvenc": "48",
+            "id": "36022",
+            "url": "https://www.citatum.hu/idezet/36022"
+        },
+        {
+            "idezetszoveg": "Az idő múlhat, a szépség és a jóság, a szeretet és az igazság nem múlik el az évszakokkal, nem múlik el az emberekkel, hanem örökös, mint a testetlen valóság, s ezekből annyit kap mindenki, amennyit megérdemel.",
+            "szerzo": "Fekete István",
+            "kategoria": "Jóság",
+            "forras": "Tüskevár",
+            "kedvenc": "45",
+            "id": "6505",
+            "url": "https://www.citatum.hu/idezet/6505"
+        }
+    ],
+    "score": 33.84,
+    "author": "Fekete István",
+    "cover": "https://moly.hu/system/covers/normal/covers_660989.jpg",
+    "description": "Egy ​vakáció története elvenedik meg a regény lapjain, mégpedig egy olyan vakációé, amilyenről minden fiú álmodik. Két pesti diák -Tutajos és Bütyök - a Kis-Balaton sás- és nádrengetegében tölti a szünidőt, Matula Gergelyt, az öreg pákászt bízzák meg a fiúk nevelésével. Gergő bácsi, aki úgy ismeri a nádak, sások, tocsogók és tavak vadregényes vidékét, mint a tenyerét, szárnya alá veszi a városi gyerekeket, és kijáratja velük a természet és valóság nehéz, de sok örömet, igaz élményt tartogató nyári iskoláját. Halászat, vadászat, egy kis híján tragikus kimenetelű nyári vihar, a török időkbeli Tüskevár felfedezése, egy leheletfinoman bontakozó gyerekszerelem - csak úgy rohannak a napok. Mire a vakáció véget ér, a két fiút szinte kicserélték, búcsújuk a berektől fájó, de nem végleges: a téli szünidőben visszajönnek. A két fiú története az író Téli berek című regényében folytatódik.",
+    "url": "https://moly.hu/konyvek/fekete-istvan-tuskevar",
+    "citations": [
+        {
+            "id": 255055,
+            "citation": "Sötétség ​nélkül semmi jelentősége nem lenne a világosságnak.",
+            "url": "https://moly.hu/idezetek/255055",
+            "user": {
+                "id": 7940,
+                "login": "Aquarius"
+            }
+        },
+        {
+            "id": 115765,
+            "citation": "- ​Most aztán aludj egy kicsit.\r\n- Áá - tiltakozott a fiú -, nagyon jó könyvet találtam.\r\n- Szerelmes? - érdeklődött Nancsi néni abban a hitben, hogy a jó könyv kizárólag szerelmes lehet.",
+            "url": "https://moly.hu/idezetek/115765",
+            "user": {
+                "id": 8247,
+                "login": "vargarockzsolt"
+            }
+        }...
+    ],
+    "reviews": [
+        {
+            "id": 290808,
+            "rating": 10,
+            "review": "Újra ​olvasás @f_andi kihívására (http://moly.hu/kihivasok/fekete-istvan-tuskevar).\r\n\r\nSzíntiszta nosztalgia. Az ilyenről nem lehet tárgyilagos értékelést írni. Nekem, minden didaktikussága ellenére, ötcsillagos kedvenc könyvem marad. A filmet is nagyon szerettem, és ha újra vetítik, mindig belenézek.\r\n\r\nNéhány spoileres gondolat, ami eszembe jutott az olvasás közben.\r\n\r\nKengyel tanár úr, politikai okok miatt tanít általános iskolában? A könyv végére egyetemi adjunktus lesz, a felesége veszi át az osztályt. Jellemző, hogy nem fordított a szereposztás, István bácsi is helyre tette a feleségét, aki azóta már új házasságban, a papucs férjével él. Egy férfi legyen domináns a nőkkel szemben.\r\n\r\nOlvasni jó, Matula bácsi nem tudja ezt, nem is lett belőle más, mint egy egyszerű pákász. Jól érzi magát a berekben, legszívesebben télre is kinn maradna, de egyedül van. Elvan, de azért örül a fiúknak, a társaságnak. Van lánya a faluban, hisz télen nála húzza meg magát, de mégis csak egy magányos öregember. (Ez így talán túl sarkos.)\r\n\r\nTutajos olvas, de a természet nyelvét még nem ismeri, pedig azt is érdemes megtanulni. \r\nFekete István szerint _a természet bölcs, de kegyetlen._ Az erősebb elpusztítja a gyengébbet: a barna kánya megfogja a kis szárcsát, Tutajos lelövi a haszontalan ragadozó madarat. Ez a törvény, és a természet analóg a társadalommal. Nem lehet sumákolni, mismásolni, füllenteni.\r\n\r\nBütyök mezőgazdásznak készül, nem bankigazgatónak, de Tutajosból még lehet mérnök, mint az apja, bár István bácsi erre csak sokat mondóan legyint. \r\n\r\nA berekben nincs templom, a fiúk a faluban sem járnak misére. Nem is hiányzik nekik.\r\nA természetnek is van transzcendenciája, és ez pótolja Istent.\r\n\r\nÉrdemes belenézni az új filmváltozatba: http://www.youtube.com/watch?v=sgCOxW4bcOg\r\nSzerintem rettentően gagyi. Ezt a könyvet valóban csak egy 8 részes sorozatban lehet jól visszaadni. Ahol nem kell sietni. Az jó volt.\r\n\r\nLegyen-e kötelező olvasmány? Kell, hogy legyen valami, ami összeköti az egy nyelven beszélőket, az egy nemzethez tartozókat, kellenek bizonyos gyökerek, és a Tüskevár ilyennek pont megfelel. A gyerekek ettől nem fognak megszeretni olvasni, biztosan egy csomóan inkább a filmsorozatot nézik meg helyette, de ez szerintem nem baj. Alsó tagozatban ez a könyv még pont jó. Igényesen van megírva, vannak pozitív értékek benne, amit meg lehet/kell tanulni, erre való az iskola.",
+            "url": "https://moly.hu/ertekelesek/290808",
+            "user": {
+                "id": 8247,
+                "login": "vargarockzsolt"
+            }
+        },
+        {
+            "id": 3804067,
+            "rating": 10,
+            "review": "Egy ​újabb könyv, aminek kapcsán kiderült rólam, h micsoda hülye voltam gyerekként, h nem olvastam el!\r\nImádtam!\r\nA Balatonparton töltött gyerekkoromra emlékeztetett, holott a kettô 'ég és föld' volt.\r\nDe mégis...\r\nA víz, a nádas, a madarak, amiket hallottam, miközben olvastam, a sikló, gumicsizma, és még a vihar is, vagy amikor a nagymamám megpróbálta a legrövidebb idô alatt a legtöbb átfagyott, koszos kölyköt megfürdetni. Somogyiként tán még egy lépéssel közelebb is vagyok az egészhez.\r\nNagyon tetszett Tutajos fejlôdése, fôleg úgy, hogy ô maga is látja, és érzi ezt Bütyök érkeztekor, és elkezdi terelgetni a már kitapasztaltak alapján.\r\nMindenképp újra fogom olvasni, de elôbb most megnézem a filmeket.\r\nCsak az újat sikerült, a képi világa gyönyörû volt!",
+            "url": "https://moly.hu/ertekelesek/3804067",
+            "user": {
+                "id": 66716,
+                "login": "Zsuzsanna_Makai"
+            }
+        }...
+    ],
+    "editions": [
+        {
+            "id": 647429,
+            "isbn": "9789634868620",
+            "publisher": "Móra",
+            "place": "Budapest",
+            "year": 2021,
+            "pages": 258,
+            "cover": "https://moly.hu/system/covers/normal/covers_660989.jpg"
+        },
+        {
+            "id": 636066,
+            "isbn": "9789634159292",
+            "publisher": "Móra",
+            "place": "Budapest",
+            "year": 2021,
+            "pages": 302,
+            "cover": "https://moly.hu/system/covers/normal/covers_123908.jpg"
+        }...
+    ],
+    "categories": [
+        "Természet",
+        "Mindennapok",
+        "Igazság, Valóság",
+        "Boldogság",
+        "Jóság"
+    ]
+}"
+Using this book object can you make a calculating score method in javascript which from this, calulates a score for a book between 0 and 100, 
+considarte that tha quotes list has the highest rated quotes in it so the longer quotes is here are the better, 
+all the review rating you should take the worst and best and from the words count of them also check how many bad and good reviews are well, 
+also after calculating the avargae page number for the book you should decide whether the page count is a lot or not  

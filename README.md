@@ -32,7 +32,10 @@
 - [ ] Stílus javítása és további tesztek írása
 - [ ] Error pages (without login saved books)
 - [ ] Dokumentáció és tesztadat adatbázis -> tesztek írása
-- [ ] Extra: mások is láthatják, hogy mennyien olvassák most azt a könyvet és hogyan haladnak vele
+- [ ] Extra: sUrl link figyelés, hogy minden kisebb akciónak legyen, külön url-je
+- [ ] Extra: mások is láthatják, hogy mennyien olvassák most azt a könyvet és hogyan 
+haladnak vele
+- [ ] Extra: cache methód, ami képes a régi keresések tárolására, így nem kell újra api-t hívni
 
 [Az élő weboldal itt tekinthető meg](https://book-app-inky.vercel.app/)
 

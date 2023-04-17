@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { auth } from "../firebase";
 import { AuthContext } from "../context/AuthContext";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { handleGoogleSignIn } from "../utils/firebase_functions";
 
 
 const Login = () => {
@@ -75,6 +76,14 @@ const Login = () => {
           Login
         </button>
       </form>
+      <button
+  type="button"
+  className="btn btn-secondary mt-3"
+  onClick={() => handleGoogleSignIn({ setError, navigate })}
+>
+  Sign in with Google
+</button>
+
     </div>
   </div>
 </div>

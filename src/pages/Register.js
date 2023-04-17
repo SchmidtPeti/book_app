@@ -3,6 +3,8 @@ import { useNavigate } from "react-router";
 import { auth } from "../firebase";
 import { AuthContext } from "../context/AuthContext";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { handleGoogleSignIn } from "../utils/firebase_functions";
+
 
 const Register = () => {
   const emailRef = useRef();
@@ -119,6 +121,14 @@ const Register = () => {
           Register
         </button>
       </form>
+            <button
+        type="button"
+        className="btn btn-secondary mt-3"
+        onClick={() => handleGoogleSignIn({ setError, navigate })}
+      >
+        Register with Google
+      </button>
+
     </div>
   );
 };

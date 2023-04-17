@@ -11,8 +11,16 @@ const Navbar = () => {
   const handleLogout = () => {
     auth.signOut();
   };
-
-  return (
+  //make a function gets a random avatar image from an api
+/*   const getRandomAvatar = (name) => {
+    fetch('https://robohash.org/' + name + '?set=set2&size=48x48')
+      .then(response => response.json())
+      .then(data => {
+        console.log(data.results[0].picture.large);
+        return data.results[0].picture.large;
+      });
+  } */
+  return (  
     <nav className="navbar navbar-expand-lg" style={{ backgroundColor: "#3f7cac" }}>
       <div className="container">
         {currentUser ? (
