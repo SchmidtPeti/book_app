@@ -64,15 +64,15 @@ A könyvajánló max. 3 címke kiválasztásával ajánl könyveket az idézetek
 ![Találat](https://i.postimg.cc/2rhFMzXR/Web-capture-21-4-2023-17226-book-app-inky-vercel-app.jpg)
 
 ### Bejelentkezés és regisztráció
-![Bejelentkezés](https://i.postimg.cc/5fWp2HF2/Web-capture-21-4-2023-1735-book-app-inky-vercel-app.jpg)
-![Regisztráció](https://i.postimg.cc/MWWD1h5k/Web-capture-21-4-2023-17436-book-app-inky-vercel-app.jpg)
+![Bejelentkezés]https://i.postimg.cc/y8n0f8PM/Web-capture-21-4-2023-1735-book-app-inky-vercel-app.jpg)
+![Regisztráció](https://i.postimg.cc/s2N7rHbK/Web-capture-21-4-2023-17436-book-app-inky-vercel-app.jpg)
 
 A regisztráció Google-fiókkal is lehetséges.
 
 ### Könyvek hozzáadása és követése
 Bejelentkezés után könyveket adhat hozzá a könyvajánlóból vagy a keresőből:
 
-![Könyv hozzáadása](https://i.postimg.cc/XW18y1yh/Web-capture-21-4-2023-17533-book-app-inky-vercel-app.jpg)
+![Könyv hozzáadása](https://i.postimg.cc/3rppsB1C/Web-capture-21-4-2023-17533-book-app-inky-vercel-app.jpg)
 
 A hozzáadott könyveket megtekintheti és követheti is:
 
