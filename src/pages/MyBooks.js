@@ -46,6 +46,17 @@ const MyBooks = () => {
     fetchBooks();
   }, [currentUser.uid]);
 
+  const calculateProgress = (currentPage, totalPages) => {
+    return (currentPage / totalPages) * 100;
+  };
+
+  const handleLiveProgressUpdate = (e, bookId) => {
+    handlePageCountChange(e, bookId);
+    if (editedPageCounts[bookId]) {
+      updatePageCount(bookId, editedPageCounts[bookId]);
+    }
+  };
+
   return (
     <div className="container mt-5">
       <h2>My Books</h2>
@@ -62,6 +73,7 @@ const MyBooks = () => {
                 <th scope="col">Page Count</th>
                 <th scope="col">Average Page</th>
                 <th scope="col">Added At</th>
+                <th scope="col">Progress</th>
                 <th scope="col">Actions</th>
               </tr>
             </thead>
@@ -70,18 +82,34 @@ const MyBooks = () => {
                 <tr key={book.id}>
                   <td>{book.title}</td>
                   <td>
-                    <input
-                      type="number"
-                      className="form-control"
-                      value={editedPageCounts[book.id] || book.pageCount}
-                      onChange={(e) => handlePageCountChange(e, book.id)}
-                    />
+                    <div className="input-group mb-3">
+                      <input
+                        type="number"
+                        className="form-control"
+                        value={editedPageCounts[book.id] || book.pageCount}
+                        onChange={(e) => handleLiveProgressUpdate(e, book.id)}
+                      />
+                    </div>
                   </td>
                   <td>{book.averagePage}</td>
                   <td>{new Date(book.addedAt.seconds * 1000).toLocaleString()}</td>
                   <td>
+                    <div className="progress">
+                      <div
+                        className="progress-bar progress-bar-striped progress-bar-animated"
+                        role="progressbar"
+                        aria-valuenow={calculateProgress(book.currentPage, editedPageCounts[book.id] || book.pageCount)}
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        style={{ width: `${calculateProgress(book.currentPage, editedPageCounts[book.id] || book.pageCount)}%` }}
+                      >
+                        {`${calculateProgress(book.currentPage, editedPageCounts[book.id] || book.pageCount).toFixed(2)}%`}
+                      </div>
+                    </div>
+                  </td>
+                  <td>
                     <button
-                      className="btn btn-primary"
+                      className="btn btn-outline-primary"
                       onClick={() => handleUpdateButtonClick(book.id)}
                     >
                       Update
