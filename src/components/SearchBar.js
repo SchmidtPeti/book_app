@@ -1,4 +1,3 @@
-// src/components/SearchBar.js
 import React, { useState, useEffect,useMemo  } from 'react';
 import { useAppContext } from '../context/AppContext';
 import { getQuote } from '../utils/api';
@@ -113,7 +112,12 @@ const SearchBar = () => {
                 onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#eee')}
                 onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'white')}
               >
+              <div
+                role="suggestion"
+                // ...rest of the attributes and style
+              >
                 {suggestion.title}
+              </div>
               </div>
             ))}
           </div>

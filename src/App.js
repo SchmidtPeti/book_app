@@ -1,4 +1,3 @@
-// App.js
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -31,6 +30,7 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/my-books" element={<MyBooks />} />
               <Route path="/my-books/add" element={<AddBook />} />
+              <Route path="/*" element={<App />} />
             </Routes>
             <BackToHomeButton />
           </Router>

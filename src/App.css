@@ -18,3 +18,11 @@ body {
 .card-item {
   margin: 10px;
 }
+.react-calendar__tile.scheduled-date {
+  background-color: rgba(75, 192, 192, 0.2);
+  border-radius: 3px;
+}
+.scheduled-date {
+  background-color: #ffc107;
+  color: white;
+}
