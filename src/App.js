@@ -14,11 +14,15 @@ import Register from './pages/Register';
 import Navbar from './components/Navbar';
 import MyBooks from './pages/MyBooks';
 import AddBook from './pages/AddBook';
+import { BooksProvider } from './context/BooksContext';
+import { ScheduledBooksProvider } from './context/ScheduledBooksContext';
 
 function App() {
   return (
     <AuthProvider>
       <AppContextProvider>
+      <BooksProvider>
+        <ScheduledBooksProvider>
         <LoadingProvider>
           <Router>
             <Navbar />
@@ -35,6 +39,8 @@ function App() {
             <BackToHomeButton />
           </Router>
         </LoadingProvider>
+        </ScheduledBooksProvider>
+      </BooksProvider>
       </AppContextProvider>
     </AuthProvider>
   );

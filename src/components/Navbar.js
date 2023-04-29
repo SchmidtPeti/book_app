@@ -2,75 +2,61 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { auth } from "../firebase";
 import { AuthContext } from "../context/AuthContext";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.min.js';
+import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 
-const Navbar = () => {
+const CustomNavbar = () => {
   const { currentUser } = useContext(AuthContext);
 
   const handleLogout = () => {
     auth.signOut();
   };
-  //make a function gets a random avatar image from an api
-/*   const getRandomAvatar = (name) => {
-    fetch('https://robohash.org/' + name + '?set=set2&size=48x48')
-      .then(response => response.json())
-      .then(data => {
-        console.log(data.results[0].picture.large);
-        return data.results[0].picture.large;
-      });
-  } */
-  return (  
-    <nav className="navbar navbar-expand-lg" style={{ backgroundColor: "#3f7cac" }}>
-      <div className="container">
-        {currentUser ? (
-          <>
-            <Link className="navbar-brand" to="/">
-              Home
-            </Link>
-            <Link className="nav-link" to="/book-search">
-              Book Search
-            </Link>
-            <Link className="nav-link" to="/book-recommendation">
-              Book Recommendation
-            </Link>
-            <div className="dropdown">
-              <button
-                className="btn btn-outline-light dropdown-toggle"
-                type="button"
-                id="dropdownMenuButton"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                {currentUser.displayName || currentUser.email}
-              </button>
-              <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li>
-                  <Link className="dropdown-item" to="/my-books">
+
+  return (
+    <Navbar bg="primary" variant="dark" expand="lg">
+      <Container>
+        <Navbar.Brand as={Link} to="/">
+          Home
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            {currentUser ? (
+              <>
+                <Nav.Link as={Link} to="/book-search">
+                  Book Search
+                </Nav.Link>
+                <Nav.Link as={Link} to="/book-recommendation">
+                  Book Recommendation
+                </Nav.Link>
+                <NavDropdown
+                  title={currentUser.displayName || currentUser.email}
+                  id="basic-nav-dropdown"
+                >
+                  <NavDropdown.Item as={Link} to="/my-books">
                     My Books
-                  </Link>
-                </li>
-                <li>
-                  <button className="dropdown-item" onClick={handleLogout}>
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item onClick={handleLogout}>
                     Logout
-                  </button>
-                </li>
-              </ul>
-            </div>
-          </>
-        ) : (
-          <>
-            <Link className="nav-link" to="/login">
-              Login
-            </Link>
-            <Link className="nav-link" to="/register">
-              Register
-            </Link>
-          </>
-        )}
-      </div>
-    </nav>
+                  </NavDropdown.Item>
+                </NavDropdown>
+              </>
+            ) : (
+              <>
+                <Nav.Link as={Link} to="/login">
+                  Login
+                </Nav.Link>
+                <Nav.Link as={Link} to="/register">
+                  Register
+                </Nav.Link>
+              </>
+            )}
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 };
 
-export default Navbar;
+export default CustomNavbar;
+  

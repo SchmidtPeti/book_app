@@ -14,13 +14,15 @@ const BookRecommendationForm = ({
           Select categories:
         </label>
         <Select
-          isOptionDisabled={() => selectedCategories.length >= 5}
-          id="category-select"
-          options={categoryOptions}
-          onChange={handleCategoryChange}
-          isMulti
-          closeMenuOnSelect={false}
-        />
+            isOptionDisabled={(option) => selectedCategories.length >= 5}
+            id="category-select"
+            options={categoryOptions}
+            onChange={handleCategoryChange}
+            isMulti
+            value={selectedCategories}
+            closeMenuOnSelect={false}
+          />
+
       </div>
       <div className="d-grid gap-2">
         <button type="submit" className="btn btn-primary">

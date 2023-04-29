@@ -4,12 +4,17 @@ import Calendar from 'react-calendar';
 import { AuthContext } from "../context/AuthContext";
 import { getFirestore, collection, query, where, updateDoc, doc, deleteDoc, getDoc } from "firebase/firestore";
 import 'react-calendar/dist/Calendar.css';
+import ListGroup from 'react-bootstrap/ListGroup'; 
+import { ScheduledBooksContext } from '../context/ScheduledBooksContext';
+import { BooksContext } from '../context/BooksContext';
+import { fetchBooks } from '../utils/bookService';
 
 
 const ReadingCalendar = () => {
   const { currentUser } = useContext(AuthContext);
-  const [scheduledBooks, setScheduledBooks] = useState([]);
+  const { scheduledBooks, setScheduledBooks } = useContext(ScheduledBooksContext);
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const {setBooks} = useContext(BooksContext);
 
   useEffect(() => {
     const db = getFirestore();
@@ -28,7 +33,7 @@ const ReadingCalendar = () => {
     return () => {
       unsubscribe();
     };
-  }, [currentUser.uid, selectedDate]);
+  }, [currentUser.uid, selectedDate,setScheduledBooks]);
 
 
   const handleDateChange = (date) => {
@@ -49,6 +54,8 @@ const ReadingCalendar = () => {
       const bookSnapshot = await getDoc(bookRef);
       const bookData = bookSnapshot.data();
       await updateDoc(bookRef, { pageCount: bookData.pageCount + pagesToRead });
+      const books = await fetchBooks(currentUser.uid);
+      setBooks(books)
 
     } catch (error) {
       console.error("Error marking as read:", error);
@@ -58,6 +65,7 @@ const ReadingCalendar = () => {
   const tileClass = ({ date, view }) => {
     if (
       view === "month" &&
+      scheduledBooks &&
       scheduledBooks.some(
         (book) =>
           new Date(book.scheduledDate).toDateString() === date.toDateString()
@@ -66,6 +74,7 @@ const ReadingCalendar = () => {
       return "scheduled-date"; // This class will be applied to the days with scheduled books
     }
   };
+  
   
   
   const deleteSchedule = async (scheduleId) => {
@@ -89,12 +98,20 @@ const ReadingCalendar = () => {
 
         />
       <h3>Scheduled Books for {selectedDate.toDateString()}:</h3>
-      <ul>
-        {scheduledBooks.map(book => (
-          <li key={book.id}>
+      <ListGroup>
+        {scheduledBooks && scheduledBooks.map(book => (
+          <ListGroup.Item key={book.id}>
             {book.title} - Pages: {book.pagesToRead}
             {book.isRead ? (
+              <>
               <span className="text-success"> (Read)</span>
+                <button
+                className="btn btn-outline-danger btn-sm ml-2"
+                onClick={() => deleteSchedule(book.id)}
+              >
+                Clear
+              </button>
+              </>
             ) : (
               <>
                 <button
@@ -111,9 +128,9 @@ const ReadingCalendar = () => {
                 </button>
               </>
             )}
-          </li>
+          </ListGroup.Item>
         ))}
-      </ul>
+      </ListGroup>
     </div>
   );
 };

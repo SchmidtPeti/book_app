@@ -1,4 +1,4 @@
-import { getFirestore, collection, query, getDocs, updateDoc, doc, addDoc } from "firebase/firestore";
+import { getFirestore, collection, query, getDocs, updateDoc, doc, addDoc, deleteDoc } from "firebase/firestore";
 
 export const fetchBooks = async (userId) => {
   const db = getFirestore();
@@ -46,4 +46,27 @@ export const schedulePages = async (userId, bookId, scheduledDate, scheduledPage
       console.error("Error scheduling pages:", error);
     }
   };
+  export const deleteBook = async (userId, bookId) => {
+    try {
+      const db = getFirestore();
+      const bookRef = doc(db, "books", userId, "userBooks", bookId);
+      await deleteDoc(bookRef);
+    } catch (error) {
+      console.error("Error deleting book:", error);
+    }
+  };
+  export const fetchScheduledBooks = async (userId) => {
+    const db = getFirestore();
+    const userSchedulesRef = collection(db, "schedules", userId, "userSchedules");
+    const q = query(userSchedulesRef);
+    const querySnapshot = await getDocs(q);
+  
+    const scheduledBooksData = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+  
+    return scheduledBooksData;
+  };
+  
   

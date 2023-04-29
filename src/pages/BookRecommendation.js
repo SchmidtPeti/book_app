@@ -28,11 +28,12 @@ const BookRecommendation = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    console.log('All quotes from selected categories:', selectedCategories.map((c) => c.label));
+    const limitedCategories = selectedCategories.slice(0, 5); // Limit the number of categories to 5
+    console.log('All quotes from selected categories:', limitedCategories.map((c) => c.label));
   
     setLoading(true);
     const allQuotes = [];
-    for (const category of selectedCategories.map((c) => c.label)) {
+    for (const category of limitedCategories.map((c) => c.label)) {
       const quotes = await fetchQuotesByCategory(category);
       allQuotes.push(...quotes);
     }
@@ -40,7 +41,6 @@ const BookRecommendation = () => {
     console.log('All quotes from selected categories:', allQuotes);
   
     const bookData = await fetchBooks(allQuotes, allQuotes);
-
   
     if (bookData.length > 0) {
       updateData(bookData);
@@ -52,6 +52,7 @@ const BookRecommendation = () => {
       setnotFoundSearch(true); // Set notFoundSearch to true when quotes are not found
     }
   };
+  
   
   return (
     <div className="container">

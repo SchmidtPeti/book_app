@@ -1,10 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
+import { deleteBook, fetchBooks, updatePageCount, schedulePages as schedulePagesService  } from "../../utils/bookService";
+import { AuthContext } from "../../context/AuthContext";
+import { BooksContext } from "../../context/BooksContext";
+import BookItem from "./MyBooksComponents/BookItem";
+import ScheduleForm from "./MyBooksComponents/ScheduleForm";
 
-const BookList = ({ books, currentUser, updatePageCount, schedulePages }) => {
-  const [editedPageCounts, setEditedPageCounts] = useState({});
-  const [showScheduleForm, setShowScheduleForm] = useState({});
-  const [scheduledDate, setScheduledDate] = useState(new Date());
-  const [scheduledPages, setScheduledPages] = useState("");
+const BookList = () => {
+  const { currentUser } = useContext(AuthContext);
+  const { books, setBooks } = useContext(BooksContext);
+    const [editedPageCounts, setEditedPageCounts] = useState({});
+    const [showScheduleForm, setShowScheduleForm] = useState({});
+    const [scheduledDate, setScheduledDate] = useState(new Date());
+    const [scheduledPages, setScheduledPages] = useState("");
+  
+    useEffect(() => {
+      const initialPageCounts = books.reduce((acc, book) => {
+        acc[book.id] = book.pageCount;
+        return acc;
+      }, {});
+      setEditedPageCounts(initialPageCounts);
+    }, [books]);
+    useEffect(() => {
+      setScheduledDate(new Date().toISOString().split("T")[0]);
+      setScheduledPages(20);
+    }, [showScheduleForm]);
+    const fetchData = useCallback(async () => {
+      if (currentUser) {
+        const booksData = await fetchBooks(currentUser.uid);
+        setBooks(booksData);
+      }
+    }, [currentUser, setBooks]);
+  
+    useEffect(() => {
+      fetchData();
+    }, [fetchData]);
+  const handleDeleteBook = async (bookId) => {
+    await deleteBook(currentUser.uid, bookId);
+  };
 
   const handlePagesToReadChange = (e) => {
     setScheduledPages(e.target.value);
@@ -22,9 +54,10 @@ const BookList = ({ books, currentUser, updatePageCount, schedulePages }) => {
     setScheduledDate(e.target.value, 10);
   };
 
-  const handlePageCountChange = (e, bookId) => {
-    setEditedPageCounts({ ...editedPageCounts, [bookId]: e.target.value });
+  const handlePageCountChange = (value, bookId) => {
+    setEditedPageCounts({ ...editedPageCounts, [bookId]: value });
   };
+  
 
   const handleUpdateButtonClick = (bookId) => {
     if (editedPageCounts[bookId]) {
@@ -32,12 +65,11 @@ const BookList = ({ books, currentUser, updatePageCount, schedulePages }) => {
     }
   };
 
-  const handleLiveProgressUpdate = (e, bookId) => {
-    handlePageCountChange(e, bookId);
-    if (editedPageCounts[bookId]) {
-      updatePageCount(currentUser.uid, bookId, editedPageCounts[bookId]);
-    }
+  const handleLiveProgressUpdate = async (value, bookId) => {
+    await updatePageCount(currentUser.uid, bookId, value); //database update
+    handlePageCountChange(value, bookId); //state update
   };
+  
   return (
     <>
       {books.length > 0 ? (
@@ -53,64 +85,29 @@ const BookList = ({ books, currentUser, updatePageCount, schedulePages }) => {
           </thead>
           <tbody>
             {books.map((book) => (
-              <tr key={book.id}>
-                <td>{book.title}</td>
-                <td>
-                  <div className="input-group mb-3">
-                    <input
-                      type="number"
-                      className="form-control"
-                      value={editedPageCounts[book.id] || book.pageCount}
-                      onChange={(e) => handleLiveProgressUpdate(e, book.id)}
+              <BookItem
+                key={book.id}
+                book={book}
+                editedPageCounts={editedPageCounts}
+                handleLiveProgressUpdate={handleLiveProgressUpdate}
+                handleUpdateButtonClick={handleUpdateButtonClick}
+                handleDeleteBook={handleDeleteBook}
+                handleScheduleButtonClick={handleScheduleButtonClick}
+                showScheduleForm={showScheduleForm}
+                ScheduleForm={(props) => (
+                    <ScheduleForm
+                      {...props}
+                      scheduledPages={scheduledPages}
+                      handlePagesToReadChange={handlePagesToReadChange}
+                      scheduledDate={scheduledDate}
+                      handleDateChange={handleDateChange}
+                      schedulePages={schedulePagesService}
+                      currentUser={currentUser}
+                      books={books}
+                      handleScheduleFormClose={handleScheduleFormClose}
                     />
-                  </div>
-                </td>
-                <td>{book.averagePage}</td>
-                <td>{new Date(book.addedAt.seconds * 1000).toLocaleString()}</td>
-                <td>
-                  <button
-                    className="btn btn-outline-primary mr-2"
-                    onClick={() => handleUpdateButtonClick(book.id)}
-                  >
-                    Update
-                  </button>
-                  <button
-                    className="btn btn-outline-secondary"
-                    onClick={() => handleScheduleButtonClick(book.id)}
-                  >
-                    Schedule
-                  </button>
-                  {showScheduleForm[book.id] && (
-                    <div className="mt-2">
-                      <input
-                        type="number"
-                        className="form-control mb-2"
-                        placeholder="Pages to read"
-                        value={scheduledPages}
-                        onChange={handlePagesToReadChange}
-                      />
-                      <input
-                        type="date"
-                        className="form-control mb-2"
-                        value={scheduledDate}
-                        onChange={handleDateChange}
-                      />
-                        <button
-                        className="btn btn-outline-success mr-2"
-                        onClick={() => schedulePages(currentUser.uid, book.id, scheduledDate, scheduledPages, books)}
-                        >
-                        Schedule Pages
-                        </button>
-                      <button
-                        className="btn btn-outline-danger"
-                        onClick={handleScheduleFormClose}
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  )}
-                </td>
-              </tr>
+                )}
+              />
             ))}
           </tbody>
         </table>
@@ -119,7 +116,6 @@ const BookList = ({ books, currentUser, updatePageCount, schedulePages }) => {
       )}
     </>
   );
-
 };
 
 export default BookList;

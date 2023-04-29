@@ -3,59 +3,34 @@ import { getQuote } from './api';
 
 
 const calculateBookScore = (book) => {
-  const bookData = book;
-  const quotes = bookData.quotes;
-  const reviews = bookData.reviews;
-  const editions = bookData.editions;
+  const { quotes, reviews, editions } = book;
 
-  let quotesScore = quotes.length * 5;
-  if (quotesScore > 50) {
-      quotesScore = 50;
-  }
+  const quotesScore = Math.min(quotes.length * 5, 50);
 
-  let minReviewRating = 10;
-  let maxReviewRating = 0;
-  let totalReviewWords = 0;
-  let goodReviews = 0;
-  let badReviews = 0;
+  const reviewData = reviews.reduce((acc, review) => {
+    const rating = review.rating;
+    const words = review.review.split(/\s+/).length;
 
-  reviews.forEach(review => {
-      const rating = review.rating;
-      const words = review.review.split(/\s+/).length;
+    acc.minRating = Math.min(acc.minRating, rating);
+    acc.maxRating = Math.max(acc.maxRating, rating);
+    acc.totalWords += words;
+    acc.goodReviews += rating >= 8 ? 1 : 0;
+    acc.badReviews += rating <= 4 ? 1 : 0;
 
-      if (rating < minReviewRating) {
-          minReviewRating = rating;
-      }
-      if (rating > maxReviewRating) {
-          maxReviewRating = rating;
-      }
+    return acc;
+  }, { minRating: 10, maxRating: 0, totalWords: 0, goodReviews: 0, badReviews: 0 });
 
-      totalReviewWords += words;
+  const reviewScore = ((reviewData.goodReviews - reviewData.badReviews) / reviews.length) * 25;
 
-      if (rating >= 8) {
-          goodReviews++;
-      } else if (rating <= 4) {
-          badReviews++;
-      }
-  });
-
-  const reviewScore = ((goodReviews - badReviews) / reviews.length) * 25;
-
-  let totalPages = 0;
-  editions.forEach(edition => {
-      totalPages += edition.pages;
-  });
-
+  const totalPages = editions.reduce((total, edition) => total + edition.pages, 0);
   const averagePages = totalPages / editions.length;
-  let pagesScore = 0;
-  if (averagePages >= 100 && averagePages <= 500) {
-      pagesScore = 25;
-  }
+  const pagesScore = averagePages >= 100 && averagePages <= 500 ? 25 : 0;
 
   const totalScore = quotesScore + reviewScore + pagesScore;
 
-  return totalScore > 100 ? 100 : totalScore;
-}
+  return Math.min(totalScore, 100);
+};
+
 
 export const fetchBooks = async (quotes) => {
   const bookData = [];
