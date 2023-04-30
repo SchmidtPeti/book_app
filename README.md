@@ -28,7 +28,7 @@
 - [ ] Olvasni valók, a rögzített oldalak, értesítésként
 - [ ] Jelezni valahogy a napokat, amikre olvasás van ütemezve a naptárba illetve real frissítés
 - [ ] Értesítési rendszer
-- [ ] Felhasználók számára lehetővé tenni a könyvekekre haladási tervet meghatározni és annak eseményekeinek exportálását naptárba
+- [ ] Felhasználók számára lehetővé tenni a könyvekekre haladási tervet meghatározni és azt követni az oldal naptárában
 - [ ] Komponensek refaktorlása és a front-end megjelenő szöveg átírása magyarrá
 - [ ] Források megjelenítése, Moly és Citatum
 - [ ] Stílus javítása és további tesztek írása

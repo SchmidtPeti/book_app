@@ -105,7 +105,6 @@ const BookCard = ({ item, loadingCitatum, loadingMoly }) => {
             >
               How did I calculate this?
             </button>
-            {/* Add a div with the score calculation explanation */}
             <div className={`collapse ${isScoreCalculationOpen ? 'show' : ''}`}>
               <div className="card card-body">
                 The score is calculated based on the following weighted factors:

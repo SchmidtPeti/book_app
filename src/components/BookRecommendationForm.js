@@ -14,7 +14,7 @@ const BookRecommendationForm = ({
           Select categories:
         </label>
         <Select
-            isOptionDisabled={(option) => selectedCategories.length >= 5}
+            isOptionDisabled={(option) => selectedCategories.length >= 10}
             id="category-select"
             options={categoryOptions}
             onChange={handleCategoryChange}

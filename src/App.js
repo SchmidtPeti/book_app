@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import BookSearch from './pages/BookSearch';
 import BookRecommendation from './pages/BookRecommendation';
 import { AppContextProvider } from './context/AppContext';
-import { LoadingProvider } from './context/LoadingContext';
 import HomePage from './pages/HomePage';
 import BackToHomeButton from './components/BackToHomeButton';
 import { AuthProvider } from './context/AuthContext';
@@ -23,7 +22,6 @@ function App() {
       <AppContextProvider>
       <BooksProvider>
         <ScheduledBooksProvider>
-        <LoadingProvider>
           <Router>
             <Navbar />
             <Routes>
@@ -38,7 +36,6 @@ function App() {
             </Routes>
             <BackToHomeButton />
           </Router>
-        </LoadingProvider>
         </ScheduledBooksProvider>
       </BooksProvider>
       </AppContextProvider>

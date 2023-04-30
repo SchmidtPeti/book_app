@@ -31,6 +31,31 @@ const calculateBookScore = (book) => {
   return Math.min(totalScore, 100);
 };
 
+export const getRandomQuotes = (categories, count) => {
+  const randomQuotes = [];
+  const categoriesCopy = [...categories]; // Create a copy of the categories array to avoid modifying the original array
+
+  for (let i = 0; i < count && categoriesCopy.length > 0; i++) {
+    const randomIndex = Math.floor(Math.random() * categoriesCopy.length);
+    randomQuotes.push(categoriesCopy[randomIndex]);
+    categoriesCopy.splice(randomIndex, 1); // Remove the selected quote from the categoriesCopy array
+  }
+
+  return randomQuotes;
+};
+export const getRandomItems = (array, count) => {
+  const randomItems = [];
+  const arrayCopy = [...array]; // Create a copy of the array to avoid modifying the original array
+
+  for (let i = 0; i < count && arrayCopy.length > 0; i++) {
+    const randomIndex = Math.floor(Math.random() * arrayCopy.length);
+    randomItems.push(arrayCopy[randomIndex]);
+    arrayCopy.splice(randomIndex, 1); // Remove the selected item from the arrayCopy array
+  }
+
+  return randomItems;
+};
+
 
 export const fetchBooks = async (quotes) => {
   const bookData = [];
