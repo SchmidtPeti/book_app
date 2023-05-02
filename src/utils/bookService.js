@@ -1,4 +1,4 @@
-import { getFirestore, collection, query, getDocs, updateDoc, doc, addDoc, deleteDoc } from "firebase/firestore";
+import { getFirestore, collection, query, getDocs, updateDoc, doc, addDoc, deleteDoc, where } from "firebase/firestore";
 
 
 export const fetchBooks = async (userId) => {
@@ -63,6 +63,26 @@ export const schedulePages = async (userId, bookId, scheduledDate, scheduledPage
     const querySnapshot = await getDocs(q);
   
     const scheduledBooksData = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+  
+    return scheduledBooksData;
+  };
+  export const fetchNextWeekSchedules = async (currentUser) => {
+    const db = getFirestore();
+    const schedulesRef = collection(db, 'schedules', currentUser.uid, 'userSchedules');
+    const today = new Date();
+    const nextWeek = new Date(today);
+    nextWeek.setDate(nextWeek.getDate() + 7);
+    const q = query(
+      schedulesRef,
+      where('scheduledDate', '>=', today.toISOString().split('T')[0]),
+      where('scheduledDate', '<=', nextWeek.toISOString().split('T')[0])
+    );
+  
+    const querySnapshot = await getDocs(q);
+    const scheduledBooksData = querySnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data(),
     }));

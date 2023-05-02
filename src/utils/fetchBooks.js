@@ -2,33 +2,46 @@ import { searchMolyBooks } from './api';
 import { getQuote } from './api';
 
 
-const calculateBookScore = (book) => {
-  const { quotes, reviews, editions } = book;
+const calculateBookScore = (obj) => {
+  const citationsAndQuotes = [];
 
-  const quotesScore = Math.min(quotes.length * 5, 50);
+  // Extract citation text from the "citations" array
+  obj.citations.forEach(citation => {
+    citationsAndQuotes.push(citation.citation);
+  });
 
-  const reviewData = reviews.reduce((acc, review) => {
-    const rating = review.rating;
-    const words = review.review.split(/\s+/).length;
+  // Extract quotes "idezetszoveg" text from the "quotes" array
+  obj.quotes.forEach(quote => {
+    citationsAndQuotes.push(quote.idezetszoveg);
+  });
 
-    acc.minRating = Math.min(acc.minRating, rating);
-    acc.maxRating = Math.max(acc.maxRating, rating);
-    acc.totalWords += words;
-    acc.goodReviews += rating >= 8 ? 1 : 0;
-    acc.badReviews += rating <= 4 ? 1 : 0;
+  // Calculate the average number of pages for the editions
+  let totalPages = 0;
+  obj.editions.forEach(edition => {
+    totalPages += edition.pages;
+  });
+  const averagePages = totalPages / obj.editions.length;
 
-    return acc;
-  }, { minRating: 10, maxRating: 0, totalWords: 0, goodReviews: 0, badReviews: 0 });
+  // Calculate the average word count for the citationsAndQuotes array
+  let totalWords = 0;
+  citationsAndQuotes.forEach(text => {
+    const wordCount = text.split(' ').length;
+    totalWords += wordCount;
+  });
+  const averageWords = totalWords / citationsAndQuotes.length;
 
-  const reviewScore = ((reviewData.goodReviews - reviewData.badReviews) / reviews.length) * 25;
+  // Log the extracted data and the calculated averages to the console
+  console.log('Citations and Quotes:', citationsAndQuotes);
+  console.log('Average Number of Pages:', averagePages);
+  console.log('Average Word Count for Citations and Quotes:', averageWords);
+  const bestPageNumber = 150;
+  const bestWordCount = 50;
+  const pageScore = Math.min(averagePages / bestPageNumber, 1);
+  const wordScore = Math.min(averageWords / bestWordCount, 1);
+  const score = (pageScore + wordScore) / 2 * 100;
 
-  const totalPages = editions.reduce((total, edition) => total + edition.pages, 0);
-  const averagePages = totalPages / editions.length;
-  const pagesScore = averagePages >= 100 && averagePages <= 500 ? 25 : 0;
-
-  const totalScore = quotesScore + reviewScore + pagesScore;
-
-  return Math.min(totalScore, 100);
+  // Return the calculated score
+  return score;
 };
 
 export const getRandomQuotes = (categories, count) => {
@@ -94,6 +107,7 @@ export const fetchBooks = async (quotes) => {
           editions: book.editions,
           categories: book.categories,
         });
+        console.log(bookData);
       }
     }
   }

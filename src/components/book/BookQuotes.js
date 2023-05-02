@@ -14,7 +14,7 @@ const BookQuotes = ({ quotes }) => {
         </thead>
         <tbody>
           {quotes.map((quote) => (
-            <tr key={quote.id}>
+            <tr key={quote.id} data-testid="book-quote">
               <td>{quote.idezetszoveg}</td>
               <td>{quote.szerzo}</td>
               <td>{quote.kedvenc}</td>

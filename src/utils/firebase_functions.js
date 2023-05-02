@@ -30,4 +30,4 @@ export const handleGoogleSignIn = async ({setError,navigate}) => {
   } catch (error) {
     setError(error.message);
   }
-}; 
+};
