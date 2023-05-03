@@ -17,16 +17,36 @@ const SearchBar = () => {
     setnotFoundSearch
   } = useAppContext();
   const [suggestions, setSuggestions] = useState([]);
-  const allBooks = useMemo(
-    () => [
+  const allBooks = useMemo(() => {
+    // Merge the arrays
+    const mergedBooks = [
       ...ifj_irodalom,
       ...kotelezo_olvasmany,
       ...magyar_szepirodalom,
       ...regeny,
       ...vilagirodalom,
-    ],
-    []
-  );
+    ];
+  
+    // Create a Set to keep track of unique titles
+    const uniqueTitles = new Set();
+  
+    // Filter the mergedBooks array to include only books with unique titles
+    const uniqueBooks = mergedBooks.filter((book) => {
+      // Check if the title is already in the Set
+      if (uniqueTitles.has(book.title)) {
+        // If the title is already in the Set, exclude the book from the result
+        return false;
+      } else {
+        // If the title is not in the Set, add it to the Set and include the book in the result
+        uniqueTitles.add(book.title);
+        return true;
+      }
+    });
+  
+    return uniqueBooks;
+  }, []);
+  
+  
 
   useEffect(() => {
     const generateSuggestions = (inputText) => {
@@ -77,18 +97,18 @@ const SearchBar = () => {
           type="text"
           className="form-control"
           id="search-input"
-          placeholder="Search here..."
+          placeholder="Próbáljon nagyobb művek címével keresni! például A vörös és a fekete, A kőszívű ember fiai, A Pál utcai fiúk, A kis herceg, A Gyűrűk Ura..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <button className="btn btn-primary ms-2" onClick={handleSearch}>
-          Search
+          Keresés
         </button>
         {suggestions.length > 0 && (
           <div
             className="suggestions"
             style={{
-              position: 'absolute',
+              position: 'absolute', 
               zIndex: 1,
               width: '100%',
               backgroundColor: 'white',
@@ -112,10 +132,7 @@ const SearchBar = () => {
                 onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#eee')}
                 onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'white')}
               >
-              <div
-                role="suggestion"
-                // ...rest of the attributes and style
-              >
+              <div>
                 {suggestion.title}
               </div>
               </div>

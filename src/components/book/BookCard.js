@@ -18,13 +18,7 @@ const BookCard = ({ item, loadingCitatum, loadingMoly }) => {
   const toggleScoreCalculation = () => {
     setIsScoreCalculationOpen(!isScoreCalculationOpen);
   };
-  const calculateAverageRating = (reviews) => {
-    let totalRating = 0;
-    reviews.forEach((review) => {
-      totalRating += review.rating;
-    });
-    return Math.round((totalRating / reviews.length) * 10) / 10;
-  };
+  console.log("sorry my little boy, but this is the end", item);
 
   useEffect(() => {
     const checkIfBookAdded = async () => {
@@ -109,15 +103,12 @@ const BookCard = ({ item, loadingCitatum, loadingMoly }) => {
               <div className="card card-body">
                 The score is calculated based on the following weighted factors:
                 <ul>
-                  <li>Number of reviews: {item.reviews.length} (weight: 0.4)</li>
-                  <li>Average rating: {calculateAverageRating(item.reviews)} (weight: 0.5)</li>
-                  <li>Page count: {calculateAveragePage(item.editions)} (weight: 0.1)</li>
                 </ul>
                 The weighted values are summed up to get the final score.
               </div>
             </div>
             <div>
-                {item.categories.length > 0 &&
+                {item.categories && item.categories.length > 0 &&
                   item.categories.map((category, index) => (
                     <span key={index} className="badge bg-secondary me-2">
                       {category}

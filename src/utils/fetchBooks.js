@@ -3,44 +3,47 @@ import { getQuote } from './api';
 
 
 const calculateBookScore = (obj) => {
-  const citationsAndQuotes = [];
+  const bestPageNumber = 150;
+  const bestWordCount = 35;
+  const atLeastKedvenc = 100;
 
-  // Extract citation text from the "citations" array
-  obj.citations.forEach(citation => {
-    citationsAndQuotes.push(citation.citation);
-  });
-
-  // Extract quotes "idezetszoveg" text from the "quotes" array
+  let sum = 0;
   obj.quotes.forEach(quote => {
-    citationsAndQuotes.push(quote.idezetszoveg);
+    sum += quote.kedvenc;
   });
+  const averageKedvenc = sum / obj.quotes.length;
 
-  // Calculate the average number of pages for the editions
+  let kedveltPart;
+  if (averageKedvenc >= atLeastKedvenc) {
+    kedveltPart = Math.min(1, (averageKedvenc / atLeastKedvenc));
+  } else {
+    kedveltPart = (averageKedvenc / atLeastKedvenc);
+  }
+
   let totalPages = 0;
   obj.editions.forEach(edition => {
     totalPages += edition.pages;
   });
   const averagePages = totalPages / obj.editions.length;
 
-  // Calculate the average word count for the citationsAndQuotes array
   let totalWords = 0;
-  citationsAndQuotes.forEach(text => {
-    const wordCount = text.split(' ').length;
+  const citationsAndQuotes = [];
+  obj.citations.forEach(citation => {
+    citationsAndQuotes.push(citation.citation);
+    const wordCount = citation.citation.split(' ').length;
+    totalWords += wordCount;
+  });
+  obj.quotes.forEach(quote => {
+    citationsAndQuotes.push(quote.idezetszoveg);
+    const wordCount = quote.idezetszoveg.split(' ').length;
     totalWords += wordCount;
   });
   const averageWords = totalWords / citationsAndQuotes.length;
 
-  // Log the extracted data and the calculated averages to the console
-  console.log('Citations and Quotes:', citationsAndQuotes);
-  console.log('Average Number of Pages:', averagePages);
-  console.log('Average Word Count for Citations and Quotes:', averageWords);
-  const bestPageNumber = 150;
-  const bestWordCount = 50;
   const pageScore = Math.min(averagePages / bestPageNumber, 1);
   const wordScore = Math.min(averageWords / bestWordCount, 1);
-  const score = (pageScore + wordScore) / 2 * 100;
+  const score = (pageScore + wordScore + kedveltPart) / 3 * 100;
 
-  // Return the calculated score
   return score;
 };
 

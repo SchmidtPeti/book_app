@@ -11,12 +11,13 @@ const BookRecommendationForm = ({
     <form onSubmit={handleSubmit}>
       <div className="mb-3">
         <label htmlFor="category-select" className="form-label">
-          Select categories:
+          Válassz kategóriát:
         </label>
         <Select
-            isOptionDisabled={(option) => selectedCategories.length >= 10}
+            isOptionDisabled={(option) => selectedCategories.length >= 3}
             id="category-select"
             options={categoryOptions}
+            placeholder={'Maximum 3 kategória'}
             onChange={handleCategoryChange}
             isMulti
             value={selectedCategories}
@@ -26,7 +27,7 @@ const BookRecommendationForm = ({
       </div>
       <div className="d-grid gap-2">
         <button type="submit" className="btn btn-primary">
-          Search
+          Keresés
         </button>
       </div>
     </form>

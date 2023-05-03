@@ -6,7 +6,7 @@ import PageHeader from '../components/PageHeader';
 const BookSearch = () => {
   return (
     <div className="container">
-      <PageHeader title={'Book Search'}/>
+      <PageHeader title={'Könyvkeresés'}/>
       <div className="row">
         <SearchBar />
         <BookCards />
