@@ -11,7 +11,7 @@ const BackToHomeButton = () => {
   return (
     <div className="fixed-bottom mb-3 me-3" style={{ textAlign: 'right' }}>
       <Link to="/" className="btn btn-secondary">
-        Back to Home
+        Vissza a főoldalra
       </Link>
     </div>
   );

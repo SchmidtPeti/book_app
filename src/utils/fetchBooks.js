@@ -3,48 +3,51 @@ import { getQuote } from './api';
 
 
 const calculateBookScore = (obj) => {
-  const bestPageNumber = 150;
-  const bestWordCount = 35;
-  const atLeastKedvenc = 100;
+  const bestPageNumber = 200;
+  const minWordPerQuote = 10
+  const maxWordPerQuote = 25
+  const atLeastKedvenc = 10;
 
-  let sum = 0;
+  let kedveltQuotesNumbers = [];
   obj.quotes.forEach(quote => {
-    sum += quote.kedvenc;
+    kedveltQuotesNumbers.push(quote.kedvenc);
   });
-  const averageKedvenc = sum / obj.quotes.length;
 
-  let kedveltPart;
-  if (averageKedvenc >= atLeastKedvenc) {
-    kedveltPart = Math.min(1, (averageKedvenc / atLeastKedvenc));
-  } else {
-    kedveltPart = (averageKedvenc / atLeastKedvenc);
-  }
+  const kedveltPart = kedveltQuotesNumbers.filter(kedvelt => kedvelt >= atLeastKedvenc).length / kedveltQuotesNumbers.length;
+
 
   let totalPages = 0;
   obj.editions.forEach(edition => {
     totalPages += edition.pages;
   });
+  
   const averagePages = totalPages / obj.editions.length;
 
-  let totalWords = 0;
+  let wordCountsArray = []
   const citationsAndQuotes = [];
   obj.citations.forEach(citation => {
     citationsAndQuotes.push(citation.citation);
     const wordCount = citation.citation.split(' ').length;
-    totalWords += wordCount;
+    wordCountsArray.push(wordCount)
   });
   obj.quotes.forEach(quote => {
     citationsAndQuotes.push(quote.idezetszoveg);
     const wordCount = quote.idezetszoveg.split(' ').length;
-    totalWords += wordCount;
+    wordCountsArray.push(wordCount)
   });
-  const averageWords = totalWords / citationsAndQuotes.length;
+  const filteredWordCountsArray = wordCountsArray.filter(wordCount => wordCount >= minWordPerQuote && wordCount <= maxWordPerQuote);
+  
+  const quoteWordNumberScore = filteredWordCountsArray.length / wordCountsArray.length;
 
   const pageScore = Math.min(averagePages / bestPageNumber, 1);
-  const wordScore = Math.min(averageWords / bestWordCount, 1);
-  const score = (pageScore + wordScore + kedveltPart) / 3 * 100;
 
-  return score;
+  console.log("pageScore: ", pageScore);
+  console.log("quoteWordNumberScore: ", quoteWordNumberScore);
+  console.log("kedveltPart: ", kedveltPart);
+  const score = ((pageScore + quoteWordNumberScore + kedveltPart) / 3)*100;
+  //rough it down to 2 decimals
+  console.log("score: ", score);
+  return Math.round(score * 100) / 100;
 };
 
 export const getRandomQuotes = (categories, count) => {

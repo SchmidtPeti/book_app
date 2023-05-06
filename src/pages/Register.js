@@ -4,7 +4,15 @@ import { auth } from "../firebase";
 import { AuthContext } from "../context/AuthContext";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { handleGoogleSignIn } from "../utils/firebase_functions";
+import styled from 'styled-components';
 
+const StyledContainer = styled.div`
+  margin-top: 5rem;
+`;
+
+const StyledForm = styled.form`
+  margin-top: 1rem;
+`;
 
 const Register = () => {
   const emailRef = useRef();
@@ -16,23 +24,21 @@ const Register = () => {
   const [termsAccepted, setTermsAccepted] = useState(false);
   const passwordConfirmRef = useRef();
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
     setPasswordConfirmError(null);
-  
+
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-      setPasswordConfirmError("Passwords do not match.");
+      setPasswordConfirmError("A jelszavak nem egyeznek.");
       return;
     }
-  
+
     if (!termsAccepted) {
-      setError("You must accept the terms of service and data storage.");
+      setError("El kell fogadnia a szolgáltatási feltételeket és az adattárolást.");
       return;
     }
-  
+
     try {
       await createUserWithEmailAndPassword(
         auth,
@@ -44,30 +50,29 @@ const Register = () => {
       setError(error.message);
     }
   };
-  
 
   if (currentUser) {
-    return <div>You are already logged in.</div>;
+    return <div>Már be vagy jelentkezve.</div>;
   }
 
   return (
-    <div className="container mt-5">
-      <h2>Register</h2>
+    <StyledContainer className="container">
+      <h2>Regisztráció</h2>
       {error && (
         <div className="alert alert-danger mt-3" role="alert">
           {error}
         </div>
       )}
       {passwordConfirmError && (
-  <div className="alert alert-danger mt-3" role="alert">
-    {passwordConfirmError}
-  </div>
-)}
+        <div className="alert alert-danger mt-3" role="alert">
+          {passwordConfirmError}
+        </div>
+      )}
 
-      <form onSubmit={handleSubmit} className="mt-3">
+      <StyledForm onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="email" className="form-label">
-            Email address
+            E-mail cím
           </label>
           <input
             ref={emailRef}
@@ -80,57 +85,57 @@ const Register = () => {
         </div>
         <div className="mb-3">
           <label htmlFor="password" className="form-label">
-            Password
+            Jelszó
           </label>
           <input
             ref={passwordRef}
             type="password"
             className="form-control"
             id="password"
-            placeholder="Password"
+            placeholder="Jelszó"
             required
           />
         </div>
         <div className="mb-3">
-  <label htmlFor="passwordConfirm" className="form-label">
-    Confirm Password
-  </label>
-  <input
-    ref={passwordConfirmRef}
-    type="password"
-    className="form-control"
-    id="passwordConfirm"
-    placeholder="Confirm Password"
-    required
-  />
-</div>
-<div className="mb-3 form-check">
-  <input
-    type="checkbox"
-    className="form-check-input"
-    id="terms"
-    checked={termsAccepted}
-    onChange={(e) => setTermsAccepted(e.target.checked)}
-  />
-  <label className="form-check-label" htmlFor="terms">
-    I accept the terms of service and data storage.
-  </label>
-</div>
-
+          <label htmlFor="passwordConfirm" className="form-label">
+            Jelszó megerősítése
+          </label>
+          <input
+            ref={passwordConfirmRef}
+            type="password"
+            className="form-control"
+            id="passwordConfirm"
+            placeholder="Jelszó megerősítése"
+            required
+          />
+        </div>
+        <div className="mb-3 form-check">
+          <input
+            type="checkbox"
+            className="form-check-input"
+            id="terms"
+            checked={termsAccepted}
+            onChange={(e) => setTermsAccepted(e.target.checked)}
+          />
+          <label className="form-check-label" htmlFor="terms">
+            Elfogadom a szolgáltatási feltételeket és az adattárolást.
+          </label>
+        </div>
+    
         <button type="submit" className="btn btn-primary">
-          Register
+          Regisztráció
         </button>
-      </form>
+      </StyledForm>
             <button
         type="button"
         className="btn btn-secondary mt-3"
         onClick={() => handleGoogleSignIn({ setError, navigate })}
       >
-        Register with Google
+        Regisztráció Google fiókkal
       </button>
-
-    </div>
-  );
+    
+    </StyledContainer>
+);
 };
 
-export default Register;
+export default Register;    

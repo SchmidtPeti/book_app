@@ -4,7 +4,17 @@ import { auth } from "../firebase";
 import { AuthContext } from "../context/AuthContext";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { handleGoogleSignIn } from "../utils/firebase_functions";
+import styled from 'styled-components';
 
+const StyledContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const StyledForm = styled.form`
+  width: 100%;
+  min-width: 300px;
+`;
 
 const Login = () => {
   const emailRef = useRef();
@@ -13,11 +23,10 @@ const Login = () => {
   const { currentUser } = useContext(AuthContext);
   const [error, setError] = useState(null);
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
-  
+
     try {
       await signInWithEmailAndPassword(
         auth,
@@ -29,65 +38,62 @@ const Login = () => {
       setError(error.message);
     }
   };
-  
 
   if (currentUser) {
-    return <div>You are already logged in.</div>;
+    return <div>Már be vagy jelentkezve.</div>;
   }
 
   return (
-<div className="container">
-  <div className="row justify-content-center">
-    <div className="col-md-6">
-      <h2 className="text-center mb-4">Login</h2>
-      {error && (
-        <div className="alert alert-danger" role="alert">
-          {error}
+    <StyledContainer className="container">
+      <div className="row justify-content-center">
+        <div className="col-md-6">
+          <h2 className="text-center mb-4">Bejelentkezés</h2>
+          {error && (
+            <div className="alert alert-danger" role="alert">
+              {error}
+            </div>
+          )}
+          <StyledForm onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label htmlFor="email" className="form-label">
+                E-mail cím
+              </label>
+              <input
+                ref={emailRef}
+                type="email"
+                className="form-control"
+                id="email"
+                placeholder="Email"
+                required
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="password" className="form-label">
+                Jelszó
+              </label>
+              <input
+                ref={passwordRef}
+                type="password"
+                className="form-control"
+                id="password"
+                placeholder="Jelszó"
+                required
+              />
+            </div>
+            <button type="submit" className="btn btn-primary">
+              Bejelentkezés
+            </button>
+          </StyledForm>
+          <button
+            type="button"
+            className="btn btn-secondary mt-3"
+            onClick={() => handleGoogleSignIn({ setError, navigate })}
+          >
+            Bejelentkezés Google fiókkal
+          </button>
         </div>
-      )}
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label htmlFor="email" className="form-label">
-            Email address
-          </label>
-          <input
-            ref={emailRef}
-            type="email"
-            className="form-control"
-            id="email"
-            placeholder="Email"
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="password" className="form-label">
-            Password
-          </label>
-          <input
-            ref={passwordRef}
-            type="password"
-            className="form-control"
-            id="password"
-            placeholder="Password"
-            required
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Login
-        </button>
-      </form>
-      <button
-  type="button"
-  className="btn btn-secondary mt-3"
-  onClick={() => handleGoogleSignIn({ setError, navigate })}
->
-  Sign in with Google
-</button>
-
-    </div>
-  </div>
-</div>
-
+      </div>
+    </StyledContainer>
   );
 };
 

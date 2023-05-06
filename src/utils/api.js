@@ -5,6 +5,7 @@ import { parseQuoteResponse } from './parser';
 export const getQuote = async (konyv) => {
   const apiUrl = `${process.env.REACT_APP_API_BASE_URL}/idezet.php`;
   const params = {
+    //convert name to ascii to avoid encoding issues
     konyv: konyv,
     f: process.env.REACT_APP_IDEZET_API_F,
     j: process.env.REACT_APP_IDEZET_API_J,
@@ -13,35 +14,32 @@ export const getQuote = async (konyv) => {
     honnan: 0,
     rendez_ir: 1,
   };
+  console.log("Könyv", konyv);
 
   try {
     // Create an array of promises for the two requests
     const promises = [0, 5, 10].map((honnan) => {
       // Update the 'honnan' parameter for each request
       params.honnan = honnan;
-
-      const urlWithParams = new URL(apiUrl, window.location.origin);
-      Object.entries(params).forEach(([key, value]) =>
-        urlWithParams.searchParams.append(key, value)
-      );
-
+  
       // Log the full URL
-      console.log('URL sent to the API:', urlWithParams.href);
+      console.log('URL sent to the API:', apiUrl, params);
       return axios.get(apiUrl, { params: params });
     });
-
+  
     // Execute both requests concurrently and wait for them to resolve
     const responses = await Promise.all(promises);
-
+  
     // Parse the responses and concatenate the results into a single array
     const idezetek = responses.flatMap((response) => parseQuoteResponse(response.data));
-
+  
     console.log("idezetek", idezetek);
     return idezetek; // Return the full array of quotes
   } catch (error) {
     console.error('Error fetching quote:', error);
     return []; // Return an empty array if there's an error
   }
+  
 };
 
 // Updated checkBooks function

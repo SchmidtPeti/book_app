@@ -17,7 +17,7 @@ const BookCards = () => {
   if (notFoundSearch) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <h2>Not found, please search for classic books</h2>
+        <h2>Nincs találat!:(</h2>
       </div>
     );
   }

@@ -34,7 +34,7 @@ const StyledLink = styled(Link)`
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: #0069d9;
+    background-color: #1d7cf2;
   }
 `;
 
