@@ -13,7 +13,6 @@ const MyBooks = () => {
   const { setBooks } = useContext(BooksContext);
   const [nextWeekPages, setNextWeekPages] = useState(0);
 
-
   useEffect(() => {
     const fetchData = async () => {
       if (currentUser) {
@@ -26,21 +25,21 @@ const MyBooks = () => {
     };
     fetchData();
   }, [currentUser, setBooks]);
-  
 
   if (!currentUser) {
-    return       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-    <img src={Spinner} alt="Loading..." />
-  </div>
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <img src={Spinner} alt="Loading..." />
+      </div>
+    );
   }
 
   return (
     <div className="container mt-5">
-    <div className="container mt-5">
-      <h2>My Books</h2>
+      <h2>Könyveim</h2>
       <div className="mt-3">
-        <h4>Progress Overview</h4>
-        <p>Pages to read in the next 7 days: {nextWeekPages}</p>
+        <h4>Áttekintés</h4>
+        <p>Következő 7 napban olvasandó oldalak száma: {nextWeekPages}</p>
       </div>
 
       <div className="mt-3">
@@ -49,14 +48,11 @@ const MyBooks = () => {
 
       <div className="mt-3">
         <Link to="/my-books/add" className="btn btn-primary mb-3">
-          Add Book
+          Könyv hozzáadása
         </Link>
         <BookList  />
       </div>
     </div>
-    </div>
-    
-    
   );
 };
 

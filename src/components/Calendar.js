@@ -21,110 +21,106 @@ const ReadingCalendar = () => {
     const schedulesRef = collection(db, 'schedules', currentUser.uid, 'userSchedules');
     const q = query(schedulesRef, where('scheduledDate', '==', selectedDate.toISOString().split('T')[0]));
 
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const scheduledBooksData = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+    const scheduledBooksData = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
 
-      setScheduledBooks(scheduledBooksData);
-    });
+    setScheduledBooks(scheduledBooksData);
+  });
 
-    return () => {
-      unsubscribe();
-    };
-  }, [currentUser.uid, selectedDate,setScheduledBooks]);
-
-
-  const handleDateChange = (date) => {
-    const adjustedDate = new Date(date);
-    adjustedDate.setMinutes(adjustedDate.getMinutes() - adjustedDate.getTimezoneOffset());
-    setSelectedDate(adjustedDate);
+  return () => {
+    unsubscribe();
   };
-  
-  const markAsRead = async (scheduleId, bookId, pagesToRead) => {
-    try {
-      // Update schedule as read
-      const db = getFirestore();
-      const scheduleRef = doc(db, 'schedules', currentUser.uid, 'userSchedules', scheduleId);
-      await updateDoc(scheduleRef, { isRead: true });
+}, [currentUser.uid, selectedDate,setScheduledBooks]);
 
-      // Update book with new pageCount
-      const bookRef = doc(db, 'books', currentUser.uid, 'userBooks', bookId);
-      const bookSnapshot = await getDoc(bookRef);
-      const bookData = bookSnapshot.data();
-      await updateDoc(bookRef, { pageCount: bookData.pageCount + pagesToRead });
-      const books = await fetchBooks(currentUser.uid);
-      setBooks(books)
+const handleDateChange = (date) => {
+  const adjustedDate = new Date(date);
+  adjustedDate.setMinutes(adjustedDate.getMinutes() - adjustedDate.getTimezoneOffset());
+  setSelectedDate(adjustedDate);
+};
 
-    } catch (error) {
-      console.error("Error marking as read:", error);
-    }
-  };
+const markAsRead = async (scheduleId, bookId, pagesToRead) => {
+  try {
+    // Jelölje a beosztást olvasottnak
+    const db = getFirestore();
+    const scheduleRef = doc(db, 'schedules', currentUser.uid, 'userSchedules', scheduleId);
+    await updateDoc(scheduleRef, { isRead: true });
 
-  const tileClass = ({ date, view }) => {
-    if (
-      view === "month" &&
-      scheduledBooks &&
-      scheduledBooks.some(
-        (book) =>
-          new Date(book.scheduledDate).toDateString() === date.toDateString()
-      )
-    ) {
-      return "scheduled-date"; // This class will be applied to the days with scheduled books
-    }
-  };
-  
-  
-  
-  const deleteSchedule = async (scheduleId) => {
-    try {
-      const db = getFirestore();
-      const scheduleRef = doc(db, 'schedules', currentUser.uid, 'userSchedules', scheduleId);
-      await deleteDoc(scheduleRef);
+    // Frissítse a könyvet az új oldalszámmal
+    const bookRef = doc(db, 'books', currentUser.uid, 'userBooks', bookId);
+    const bookSnapshot = await getDoc(bookRef);
+    const bookData = bookSnapshot.data();
+    await updateDoc(bookRef, { pageCount: bookData.pageCount + pagesToRead });
+    const books = await fetchBooks(currentUser.uid);
+    setBooks(books)
 
-    } catch (error) {
-      console.error("Error deleting schedule:", error);
-    }
-  };
+  } catch (error) {
+    console.error("Hiba az olvasottnak jelölésnél:", error);
+  }
+};
 
-  return (
-    <div>
-        <Calendar
-        onChange={handleDateChange}
-        value={selectedDate}
-        tileClassName={tileClass}
-        className={'mx-auto'}
+const tileClass = ({ date, view }) => {
+  if (
+    view === "month" &&
+    scheduledBooks &&
+    scheduledBooks.some(
+      (book) =>
+        new Date(book.scheduledDate).toDateString() === date.toDateString()
+    )
+  ) {
+    return "scheduled-date"; // Ezt az osztályt alkalmazzák az ütemezett könyvekkel rendelkező napokra
+  }
+};
 
-        />
-      <h3>Scheduled Books for {selectedDate.toDateString()}:</h3>
-      <ListGroup>
-        {scheduledBooks && scheduledBooks.map(book => (
-          <ListGroup.Item key={book.id}>
-            {book.title} - Pages: {book.pagesToRead}
-            {book.isRead ? (
-              <>
-              <span className="text-success"> (Read)</span>
-                <button
-                className="btn btn-outline-danger btn-sm ml-2"
-                onClick={() => deleteSchedule(book.id)}
+const deleteSchedule = async (scheduleId) => {
+  try {
+    const db = getFirestore();
+    const scheduleRef = doc(db, 'schedules', currentUser.uid, 'userSchedules', scheduleId);
+    await deleteDoc(scheduleRef);
+
+  } catch (error) {
+    console.error("Hiba a beosztás törlésénél:", error);
+  }
+};
+
+return (
+  <div>
+      <Calendar
+      onChange={handleDateChange}
+      value={selectedDate}
+      tileClassName={tileClass}
+      className={'mx-auto'}
+
+      />
+    <h3>Ütemezett könyvek erre a napra: {selectedDate.toDateString()}:</h3>
+    <ListGroup>
+      {scheduledBooks && scheduledBooks.map(book => (
+        <ListGroup.Item key={book.id}>
+          {book.title} - Oldalak: {book.pagesToRead}
+          {book.isRead ? (
+            <>
+            <span className="text-success"> (Elolvasva)</span>
+              <button
+              className="btn btn-outline-danger btn-sm ml-2"
+              onClick={() => deleteSchedule(book.id)}
+            >
+              Törlés
+            </button>
+            </>
+          ) : (
+            <>
+              <button
+                className="btn btn-outline-success btn-sm ml-2"
+                onClick={() => markAsRead(book.id, book.bookId, book.pagesToRead)}
               >
-                Clear
+                Megjelölés olvasottként
               </button>
-              </>
-            ) : (
-              <>
-                <button
-                  className="btn btn-outline-success btn-sm ml-2"
-                  onClick={() => markAsRead(book.id, book.bookId, book.pagesToRead)}
-                >
-                  Mark as Read
-                </button>
-                <button
+              <button
                   className="btn btn-outline-danger btn-sm ml-2"
                   onClick={() => deleteSchedule(book.id)}
                 >
-                  Delete
+                  Törlés
                 </button>
               </>
             )}
@@ -133,6 +129,7 @@ const ReadingCalendar = () => {
       </ListGroup>
     </div>
   );
-};
 
+};
 export default ReadingCalendar;
+
