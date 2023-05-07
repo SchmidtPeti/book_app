@@ -70,17 +70,18 @@ const BookList = () => {
     handlePageCountChange(value, bookId); //state update
   };
   
+ 
   return (
     <>
       {books.length > 0 ? (
         <table className="table table-striped">
           <thead>
             <tr>
-              <th scope="col">Title</th>
-              <th scope="col">Page Count</th>
-              <th scope="col">Average Page</th>
-              <th scope="col">Added At</th>
-              <th scope="col">Actions</th>
+              <th scope="col">Cím</th>
+              <th scope="col">Oldalszám</th>
+              <th scope="col">Átlag oldal</th>
+              <th scope="col">Hozzáadva</th>
+              <th scope="col">Műveletek</th>
             </tr>
           </thead>
           <tbody>
@@ -95,24 +96,24 @@ const BookList = () => {
                 handleScheduleButtonClick={handleScheduleButtonClick}
                 showScheduleForm={showScheduleForm}
                 ScheduleForm={(props) => (
-                    <ScheduleForm
-                      {...props}
-                      scheduledPages={scheduledPages}
-                      handlePagesToReadChange={handlePagesToReadChange}
-                      scheduledDate={scheduledDate}
-                      handleDateChange={handleDateChange}
-                      schedulePages={schedulePagesService}
-                      currentUser={currentUser}
-                      books={books}
-                      handleScheduleFormClose={handleScheduleFormClose}
-                    />
+                  <ScheduleForm
+                    {...props}
+                    scheduledPages={scheduledPages}
+                    handlePagesToReadChange={handlePagesToReadChange}
+                    scheduledDate={scheduledDate}
+                    handleDateChange={handleDateChange}
+                    schedulePages={schedulePagesService}
+                    currentUser={currentUser}
+                    books={books}
+                    handleScheduleFormClose={handleScheduleFormClose}
+                  />
                 )}
               />
             ))}
           </tbody>
         </table>
       ) : (
-        <div className="alert alert-info">You have not added any books yet.</div>
+        <div className="alert alert-info">Még nem adtál hozzá könyveket.</div>
       )}
     </>
   );

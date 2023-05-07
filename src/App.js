@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -15,6 +15,7 @@ import MyBooks from './pages/MyBooks';
 import AddBook from './pages/AddBook';
 import { BooksProvider } from './context/BooksContext';
 import { ScheduledBooksProvider } from './context/ScheduledBooksContext';
+import { AuthContext } from './context/AuthContext';
 
 function App() {
   return (
@@ -30,8 +31,22 @@ function App() {
               <Route path="/book-recommendation" element={<BookRecommendation />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/my-books" element={<MyBooks />} />
-              <Route path="/my-books/add" element={<AddBook />} />
+              <Route
+                  path="/my-books"
+                  element={
+                    <AuthWrapper>
+                      <MyBooks />
+                    </AuthWrapper>
+                  }
+                />
+                <Route
+                  path="/my-books/add"
+                  element={
+                    <AuthWrapper>
+                      <AddBook />
+                    </AuthWrapper>
+                  }
+                />
               <Route path="/*" element={<App />} />
             </Routes>
             <BackToHomeButton />
@@ -42,5 +57,8 @@ function App() {
     </AuthProvider>
   );
 }
-
+const AuthWrapper = ({ children }) => {
+  const { currentUser } = useContext(AuthContext);
+  return currentUser ? children : <Login />;
+};
 export default App;

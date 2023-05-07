@@ -16,23 +16,25 @@ const ReadingCalendar = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const {setBooks} = useContext(BooksContext);
 
+
   useEffect(() => {
     const db = getFirestore();
     const schedulesRef = collection(db, 'schedules', currentUser.uid, 'userSchedules');
     const q = query(schedulesRef, where('scheduledDate', '==', selectedDate.toISOString().split('T')[0]));
 
-    const scheduledBooksData = querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const scheduledBooksData = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
 
-    setScheduledBooks(scheduledBooksData);
-  });
+      setScheduledBooks(scheduledBooksData);
+    });
 
-  return () => {
-    unsubscribe();
-  };
-}, [currentUser.uid, selectedDate,setScheduledBooks]);
+    return () => {
+      unsubscribe();
+    };
+  }, [currentUser.uid, selectedDate,setScheduledBooks]);
 
 const handleDateChange = (date) => {
   const adjustedDate = new Date(date);
@@ -83,6 +85,15 @@ const deleteSchedule = async (scheduleId) => {
     console.error("Hiba a beosztás törlésénél:", error);
   }
 };
+//wirte a function, the input to the function selectedDate.toDateString() - transform the 'Sun May 07 2023' to a 2023-05-07 format
+
+const dateToISOString = (date) => {
+  const adjustedDate = new Date(date);
+  adjustedDate.setMinutes(adjustedDate.getMinutes() - adjustedDate.getTimezoneOffset());
+  return adjustedDate.toISOString().split('T')[0];
+};
+
+
 
 return (
   <div>
@@ -93,7 +104,7 @@ return (
       className={'mx-auto'}
 
       />
-    <h3>Ütemezett könyvek erre a napra: {selectedDate.toDateString()}:</h3>
+    <h3>Ütemezett könyvek erre a napra: {dateToISOString(selectedDate.toDateString())}:</h3>
     <ListGroup>
       {scheduledBooks && scheduledBooks.map(book => (
         <ListGroup.Item key={book.id}>
@@ -129,7 +140,6 @@ return (
       </ListGroup>
     </div>
   );
-
 };
 export default ReadingCalendar;
 

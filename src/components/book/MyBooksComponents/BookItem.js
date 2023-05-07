@@ -78,12 +78,12 @@ const BookItem = ({
       <td>{new Date(book.addedAt.seconds * 1000).toLocaleString()}</td>
       <td>
         <Button
-          variant="outline-primary"
-          className="mr-2"
-          onClick={() => handleUpdateButtonClick(book.id)}
+          variant="outline-secondary"
+          onClick={() => handleScheduleButtonClick(book.id)}
         >
-          Update
+          Schedule
         </Button>
+        {showScheduleForm[book.id] && <ScheduleForm bookId={book.id} />}
         <Button
           variant="outline-danger"
           className="mr-2"
@@ -91,13 +91,6 @@ const BookItem = ({
         >
           Delete
         </Button>
-        <Button
-          variant="outline-secondary"
-          onClick={() => handleScheduleButtonClick(book.id)}
-        >
-          Schedule
-        </Button>
-        {showScheduleForm[book.id] && <ScheduleForm bookId={book.id} />}
       </td>
     </tr>
   );
