@@ -1,4 +1,4 @@
-import { getFirestore, collection, query, getDocs, updateDoc, doc, addDoc, deleteDoc, where } from "firebase/firestore";
+import { getFirestore, collection, query, getDocs, updateDoc, doc, addDoc, deleteDoc, where, getDoc } from "firebase/firestore";
 
 
 export const fetchBooks = async (userId) => {
@@ -16,14 +16,33 @@ export const fetchBooks = async (userId) => {
 };
 
 export const updatePageCount = async (userId, bookId, newPageCount) => {
+  console.log("this is the new page count", newPageCount);
   try {
     const db = getFirestore();
     const bookRef = doc(db, "books", userId, "userBooks", bookId);
-    await updateDoc(bookRef, { pageCount: parseInt(newPageCount) });
+    const bookDoc = await getDoc(bookRef);
+    const book = bookDoc.data();
+    const { averagePage } = book;
+    if (parseInt(newPageCount) > parseInt(averagePage)) {
+      await updateDoc(bookRef, { pageCount: parseInt(averagePage) });
+    } else {
+      await updateDoc(bookRef, { pageCount: parseInt(newPageCount) });
+    }
   } catch (error) {
     console.error("Error updating page count:", error);
   }
 };
+export const updateTotalCount = async (userId, bookId, averagePage) => {
+  try {
+    console.log("this is the new average page count", averagePage);
+    const db = getFirestore();
+    const bookRef = doc(db, "books", userId, "userBooks", bookId);
+    await updateDoc(bookRef, { averagePage: parseInt(averagePage) });
+  } catch (error) {
+    console.error("Error updating average page count:", error);
+  }
+};
+
 
 export const schedulePages = async (userId, bookId, scheduledDate, scheduledPages, books) => {
     try {
@@ -90,4 +109,9 @@ export const schedulePages = async (userId, bookId, scheduledDate, scheduledPage
     return scheduledBooksData;
   };
   
-  
+  export const getBookData = async (userId, bookId) => {
+    const db = getFirestore();
+    const bookRef = doc(db, 'books', userId, 'userBooks', bookId);
+    const bookSnapshot = await getDoc(bookRef);
+    return bookSnapshot.data();
+  };

@@ -7,7 +7,7 @@ import 'react-calendar/dist/Calendar.css';
 import ListGroup from 'react-bootstrap/ListGroup'; 
 import { ScheduledBooksContext } from '../context/ScheduledBooksContext';
 import { BooksContext } from '../context/BooksContext';
-import { fetchBooks } from '../utils/bookService';
+import { fetchBooks,updatePageCount } from '../utils/bookService';
 
 
 const ReadingCalendar = () => {
@@ -53,7 +53,7 @@ const markAsRead = async (scheduleId, bookId, pagesToRead) => {
     const bookRef = doc(db, 'books', currentUser.uid, 'userBooks', bookId);
     const bookSnapshot = await getDoc(bookRef);
     const bookData = bookSnapshot.data();
-    await updateDoc(bookRef, { pageCount: bookData.pageCount + pagesToRead });
+    await updatePageCount(currentUser.uid, bookId, bookData.pageCount + pagesToRead);
     const books = await fetchBooks(currentUser.uid);
     setBooks(books)
 

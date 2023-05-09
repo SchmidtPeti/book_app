@@ -1,0 +1,28 @@
+.bookItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .mobileOnly {
+    display: none;
+  }
+  
+  .desktopOnly {
+    display: block;
+  }
+  
+  @media (max-width: 767px) {
+    .bookItem {
+      font-size: 0.9rem;
+    }
+    
+    .mobileOnly {
+      display: block;
+    }
+  
+    .desktopOnly {
+      display: none;
+    }
+  }
+  

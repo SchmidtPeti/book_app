@@ -7,13 +7,12 @@ import { handleGoogleSignIn } from "../utils/firebase_functions";
 import styled from 'styled-components';
 
 const StyledContainer = styled.div`
-  display: flex;
-  justify-content: center;
 `;
 
 const StyledForm = styled.form`
-  width: 100%;
-  min-width: 300px;
+`;
+
+const StyledInput = styled.input`
 `;
 
 const Login = () => {
@@ -58,7 +57,7 @@ const Login = () => {
               <label htmlFor="email" className="form-label">
                 E-mail cím
               </label>
-              <input
+              <StyledInput
                 ref={emailRef}
                 type="email"
                 className="form-control"
@@ -71,7 +70,7 @@ const Login = () => {
               <label htmlFor="password" className="form-label">
                 Jelszó
               </label>
-              <input
+              <StyledInput
                 ref={passwordRef}
                 type="password"
                 className="form-control"

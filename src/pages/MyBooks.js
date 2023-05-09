@@ -47,7 +47,7 @@ const MyBooks = () => {
       <h2>Könyveim</h2>
       <div className="mt-3">
         <h4>Áttekintés</h4>
-        <p>Következő 7 napban olvasandó oldalak száma:</p>
+        <p>Következő 7 napban olvasandó:</p>
         {nextWeekPages.length === 0 ? <p>Nincs olvasandó könyv a következő héten.</p> :
         <ul>
           {nextWeekPages.map((book, index) => (

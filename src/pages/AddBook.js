@@ -10,8 +10,6 @@ const AddBook = () => {
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const db = getFirestore();
@@ -29,11 +27,11 @@ const AddBook = () => {
 
   return (
     <div className="container mt-5">
-      <h2>Add Book</h2>
+      <h2>Könyv hozzáadása</h2>
       <form onSubmit={handleSubmit} className="mt-3">
         <div className="mb-3">
           <label htmlFor="title" className="form-label">
-            Title
+            Cím
           </label>
           <input
             type="text"
@@ -46,7 +44,7 @@ const AddBook = () => {
         </div>
         <div className="mb-3">
           <label htmlFor="pageCount" className="form-label">
-            Page Count
+            Oldalszám
           </label>
           <input
             type="number"
@@ -59,7 +57,7 @@ const AddBook = () => {
         </div>
         <div className="mb-3">
           <label htmlFor="averagePage" className="form-label">
-            Average Page
+            Átlagos oldalszám
           </label>
           <input
             type="number"
@@ -71,7 +69,7 @@ const AddBook = () => {
           />
         </div>
         <button type="submit" className="btn btn-primary">
-          Add Book
+          Könyv hozzáadása
         </button>
       </form>
     </div>
@@ -79,4 +77,3 @@ const AddBook = () => {
 };
 
 export default AddBook;
-

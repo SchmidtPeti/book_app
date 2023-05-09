@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
-import { deleteBook, fetchBooks, updatePageCount, schedulePages as schedulePagesService  } from "../../utils/bookService";
+import { deleteBook, fetchBooks, updatePageCount, schedulePages as schedulePagesService, updateTotalCount  } from "../../utils/bookService";
 import { AuthContext } from "../../context/AuthContext";
 import { BooksContext } from "../../context/BooksContext";
 import BookItem from "./MyBooksComponents/BookItem";
@@ -36,6 +36,7 @@ const BookList = () => {
     }, [fetchData]);
   const handleDeleteBook = async (bookId) => {
     await deleteBook(currentUser.uid, bookId);
+    fetchData();
   };
 
   const handlePagesToReadChange = (e) => {
@@ -53,22 +54,24 @@ const BookList = () => {
   const handleDateChange = (e) => {
     setScheduledDate(e.target.value, 10);
   };
-
-  const handlePageCountChange = (value, bookId) => {
-    setEditedPageCounts({ ...editedPageCounts, [bookId]: value });
-  };
   
 
-  const handleUpdateButtonClick = (bookId) => {
+  /*const handleUpdateButtonClick = (bookId) => {
     if (editedPageCounts[bookId]) {
       updatePageCount(currentUser.uid, bookId, editedPageCounts[bookId]);
     }
-  };
+  };*/
 
   const handleLiveProgressUpdate = async (value, bookId) => {
     await updatePageCount(currentUser.uid, bookId, value); //database update
-    handlePageCountChange(value, bookId); //state update
+    //handlePageCountChange(value, bookId); //state update
+    fetchData();
   };
+  const updateTotalPageCount = async (value, bookId) => {
+    await updateTotalCount(currentUser.uid, bookId, value); //database update
+    fetchData();
+  };
+
   
  
   return (
@@ -91,9 +94,9 @@ const BookList = () => {
                 book={book}
                 editedPageCounts={editedPageCounts}
                 handleLiveProgressUpdate={handleLiveProgressUpdate}
-                handleUpdateButtonClick={handleUpdateButtonClick}
                 handleDeleteBook={handleDeleteBook}
                 handleScheduleButtonClick={handleScheduleButtonClick}
+                updatePageCount={updateTotalPageCount}
                 showScheduleForm={showScheduleForm}
                 ScheduleForm={(props) => (
                   <ScheduleForm

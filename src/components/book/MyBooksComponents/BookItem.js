@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Button, Form, InputGroup } from "react-bootstrap";
+import { Button, Form, InputGroup} from "react-bootstrap";
 
 const BookItem = ({
   book,
   editedPageCounts,
   handleLiveProgressUpdate,
-  handleUpdateButtonClick,
+  updatePageCount,
   handleDeleteBook,
   handleScheduleButtonClick,
   showScheduleForm,
@@ -13,6 +13,8 @@ const BookItem = ({
 }) => {
   const [showInput, setShowInput] = useState(false);
   const [inputValue, setInputValue] = useState(book.pageCount);
+  const [showAvgPageInput, setShowAvgPageInput] = useState(false); // Add a new state for toggling the average page input
+  const [avgPageInputValue, setAvgPageInputValue] = useState(book.averagePage); // Add a new state for storing the average page input value
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -25,6 +27,17 @@ const BookItem = ({
 
   const handleAddPages = (valueToAdd) => {
     handleLiveProgressUpdate(Number(editedPageCounts[book.id] || book.pageCount) + valueToAdd, book.id);
+  };
+
+  // Add a new handler for changing the average page input value
+  const handleAvgPageInputChange = (e) => {
+    setAvgPageInputValue(e.target.value);
+  };
+
+  // Add a new handler for submitting the average page input value
+  const handleAvgPageSubmit = () => {
+    updatePageCount(avgPageInputValue, book.id);
+    setShowAvgPageInput(false);
   };
   
 
@@ -74,7 +87,32 @@ const BookItem = ({
           </Button>
         </div>
       </td>
-      <td>{book.averagePage}</td>
+      <td>
+        {showAvgPageInput ? (
+          <InputGroup>
+            <Form.Control
+              type="number"
+              className="mb-2"
+              value={avgPageInputValue}
+              onChange={handleAvgPageInputChange}
+            />
+              <Button 
+              variant="outline-primary" 
+              className="mb-2"
+               onClick={handleAvgPageSubmit}>
+                Set
+              </Button>
+          </InputGroup>
+        ) : (
+            <Button
+              variant="outline-primary"
+              className="mr-2"
+              onClick={() => setShowAvgPageInput(true)}
+            >
+              {book.averagePage}
+            </Button>
+        )}
+      </td>
       <td>{new Date(book.addedAt.seconds * 1000).toLocaleString()}</td>
       <td>
         <Button
@@ -97,3 +135,4 @@ const BookItem = ({
 };
 
 export default BookItem;
+
