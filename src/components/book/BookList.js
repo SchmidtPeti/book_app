@@ -4,6 +4,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { BooksContext } from "../../context/BooksContext";
 import BookItem from "./MyBooksComponents/BookItem";
 import ScheduleForm from "./MyBooksComponents/ScheduleForm";
+import { Table } from "react-bootstrap";
 
 const BookList = () => {
   const { currentUser } = useContext(AuthContext);
@@ -77,7 +78,7 @@ const BookList = () => {
   return (
     <>
       {books.length > 0 ? (
-        <table className="table table-striped">
+        <Table className="table table-striped" responsive>
           <thead>
             <tr>
               <th scope="col">Cím</th>
@@ -114,7 +115,7 @@ const BookList = () => {
               />
             ))}
           </tbody>
-        </table>
+        </Table>
       ) : (
         <div className="alert alert-info">Még nem adtál hozzá könyveket.</div>
       )}

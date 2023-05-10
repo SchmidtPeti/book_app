@@ -3,10 +3,11 @@ import { getQuote } from './api';
 
 
 const calculateBookScore = (obj) => {
-  const bestPageNumber = 200;
-  const minWordPerQuote = 10
-  const maxWordPerQuote = 25
-  const atLeastKedvenc = 10;
+  const bestPageNumber = process.env.REACT_APP_BEST_PAGE_NUMBER;
+  const minWordPerQuote = process.env.REACT_APP_MIN_WORD_PER_QUOTE;
+  const maxWordPerQuote = process.env.REACT_APP_MAX_WORD_PER_QUOTE;
+  const atLeastKedvenc = process.env.REACT_APP_AT_LEAST_KEDVENC;
+  
 
   let kedveltQuotesNumbers = [];
   obj.quotes.forEach(quote => {
@@ -50,31 +51,6 @@ const calculateBookScore = (obj) => {
   return Math.round(score * 100) / 100;
 };
 
-export const getRandomQuotes = (categories, count) => {
-  const randomQuotes = [];
-  const categoriesCopy = [...categories]; // Create a copy of the categories array to avoid modifying the original array
-
-  for (let i = 0; i < count && categoriesCopy.length > 0; i++) {
-    const randomIndex = Math.floor(Math.random() * categoriesCopy.length);
-    randomQuotes.push(categoriesCopy[randomIndex]);
-    categoriesCopy.splice(randomIndex, 1); // Remove the selected quote from the categoriesCopy array
-  }
-
-  return randomQuotes;
-};
-export const getRandomItems = (array, count) => {
-  const randomItems = [];
-  const arrayCopy = [...array]; // Create a copy of the array to avoid modifying the original array
-
-  for (let i = 0; i < count && arrayCopy.length > 0; i++) {
-    const randomIndex = Math.floor(Math.random() * arrayCopy.length);
-    randomItems.push(arrayCopy[randomIndex]);
-    arrayCopy.splice(randomIndex, 1); // Remove the selected item from the arrayCopy array
-  }
-
-  return randomItems;
-};
-
 
 export const fetchBooks = async (quotes) => {
   const bookData = [];
@@ -85,7 +61,7 @@ export const fetchBooks = async (quotes) => {
       const books = await searchMolyBooks(quote.forras, quote.szerzo, quoteList);
 
       for (const book of books) {
-        const score = calculateBookScore({
+        const newBook = {
           id: book.id,
           title: `${book.title} by ${book.author}`,
           quotes: quoteList,
@@ -98,21 +74,9 @@ export const fetchBooks = async (quotes) => {
           reviews: book.reviews,
           editions: book.editions,
           categories: book.categories,
-        });
-        bookData.push({
-          id: book.id,
-          title: `${book.title} by ${book.author}`,
-          quotes: quoteList,
-          score: score,
-          author: book.author,
-          cover: book.cover,
-          description: book.description,
-          url: book.url,
-          citations: book.citations,
-          reviews: book.reviews,
-          editions: book.editions,
-          categories: book.categories,
-        });
+        };
+        const score = calculateBookScore(newBook);
+        bookData.push({ ...newBook, score });
         console.log(bookData);
       }
     }

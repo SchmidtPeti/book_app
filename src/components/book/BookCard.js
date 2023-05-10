@@ -114,12 +114,23 @@ const BookCard = ({ item, loadingCitatum, loadingMoly }) => {
               Hogyan számoltam ki ezt?
             </button>
             <div className={`collapse ${isScoreCalculationOpen ? 'show' : ''}`}>
-              <div className="card card-body">
-                Az értékelés az alábbi súlyozott tényezők alapján kerül kiszámításra:
-                <ul>
-                </ul>
-                A súlyozott értékek összege adja a végső értékelést.
-              </div>
+            <div class="card">
+      <div class="card-header">
+        Könyvek értékelési módszere
+      </div>
+      <div class="card-body">
+        <p class="card-text">A könyvek értékelését a következő módon számoltuk ki:</p>
+        <ul>
+          <li>Meghatároztuk a kedveltPart értékét, amely a kedvelt címkéjű idézetek arányát számolja, amelyeknek a kedvelt értéke legalább 10.</li>
+          <li>Kiszámoltuk az átlagos oldalszámot a könyv összes kiadásához, és ezt az averagePages változóban tároltuk.</li>
+          <li>Összegyűjtöttük a hivatkozások és idézetek szövegét, valamint a szavak számát, és eltároltuk őket a wordCountsArray tömbben. Ezután létrehoztunk egy szűrt tömböt, amely csak azokat a hivatkozásokat és idézeteket tartalmazza, amelyek szavainak száma a minWordPerQuote és a maxWordPerQuote között van.</li>
+          <li>Kiszámoltuk a quoteWordNumberScore értékét, amely a szűrt tömb hossza és a wordCountsArray tömb hossza arányát jelenti.</li>
+          <li>Kiszámoltuk a pageScore értékét, amely az átlagos oldalszám és a legjobb oldalszám (ami jelen esetben 200) arányát jelenti, legfeljebb 1 értékig.</li>
+          <li>Végül kiszámoltuk a végső értékelést, amely a fenti három érték átlagát képezi, szorozva 100-al, hogy a végeredmény 100-as skálán jelenjen meg. A végső értékelést két tizedesjegyre kerekítettük.</li>
+        </ul>
+        <p class="card-text">Fontos megjegyezni, hogy a legjobb oldalszám (200), a minimális és maximális szavak száma idézetenként (10 és 25) és a kedvelt értékek küszöbértéke (10) a kódban vannak rögzítve. Ezek a számok változtathatók, hogy jobban illeszkedjenek a felhasználó preferenciáihoz vagy a könyvek értékelési kritériumaihoz.</p>
+      </div>
+    </div>
             </div>
             <div>
                 {item.categories && item.categories.length > 0 &&
@@ -136,7 +147,7 @@ const BookCard = ({ item, loadingCitatum, loadingMoly }) => {
               type="button"
               onClick={() => toggleSection('quotes')}
             >
-              {openSections.quotes ? 'Idézetek elrejtése' : 'Idézetek megjelenítése'}
+              {openSections.quotes ? 'Citatum.hu idézetek elrejtése' : 'Citatum.hu idézetek megjelenítése'}
             </StyledButton>
             {openSections.quotes && (
               <BookQuotes
@@ -149,7 +160,7 @@ const BookCard = ({ item, loadingCitatum, loadingMoly }) => {
               type="button"
               onClick={toggleDetails}
             >
-              {isDetailsOpen ? 'Hivatkozások elrejtése' : 'Hivatkozások megjelenítése'}
+              {isDetailsOpen ? 'Moly.hu idézetek elrejtése' : 'Moly.hu idézetek megjelenítése'}
             </StyledButton>
             {isDetailsOpen && <BookCitations item={item} />}
             <StyledButton

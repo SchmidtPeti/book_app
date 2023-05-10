@@ -3,15 +3,7 @@ import { Link } from "react-router-dom";
 import { auth } from "../firebase";
 import { AuthContext } from "../context/AuthContext";
 import styled from "styled-components";
-
-const NavWrapper = styled.nav`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  background: linear-gradient(120deg, #5daa8a 0%, #4d96ba 100%);
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
-`;
+import { Navbar, Nav, Container } from "react-bootstrap"; // Import the necessary components from react-bootstrap
 
 const NavLink = styled(Link)`
   color: white;
@@ -25,11 +17,6 @@ const NavLink = styled(Link)`
   }
 `;
 
-const NavMenu = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
 const CustomNavbar = () => {
   const { currentUser } = useContext(AuthContext);
 
@@ -38,24 +25,49 @@ const CustomNavbar = () => {
   };
 
   return (
-    <NavWrapper>
-      <NavLink to="/">Kezdőlap</NavLink>
-      <NavMenu>
-        {currentUser ? (
-          <>
-            <NavLink to="/book-search">Könyvkeresés</NavLink>
-            <NavLink to="/book-recommendation">Könyvajánló</NavLink>
-            <NavLink to="/my-books">Saját könyveim</NavLink>
-            <NavLink onClick={handleLogout}>Kijelentkezés</NavLink>
-          </>
-        ) : (
-          <>
-            <NavLink to="/login">Bejelentkezés</NavLink>
-            <NavLink to="/register">Regisztráció</NavLink>
-          </>
-        )}
-      </NavMenu>
-    </NavWrapper>
+    <Navbar
+      collapseOnSelect
+      expand="lg"
+      bg="dark"
+      variant="dark"
+      style={{ boxShadow: "0 2px 2px rgba(0, 0, 0, 0.1)" }}
+    >
+      <Container>
+        <Navbar.Brand as={Link} to="/">
+          Kezdőlap
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="ml-auto">
+            {currentUser ? (
+              <>
+                <Nav.Link as={NavLink} to="/book-search">
+                  Könyvkeresés
+                </Nav.Link>
+                <Nav.Link as={NavLink} to="/book-recommendation">
+                  Könyvajánló
+                </Nav.Link>
+                <Nav.Link as={NavLink} to="/my-books">
+                  Saját könyveim
+                </Nav.Link>
+                <Nav.Link as={NavLink} onClick={handleLogout}>
+                  Kijelentkezés
+                </Nav.Link>
+              </>
+            ) : (
+              <>
+                <Nav.Link as={NavLink} to="/login">
+                  Bejelentkezés
+                </Nav.Link>
+                <Nav.Link as={NavLink} to="/register">
+                  Regisztráció
+                </Nav.Link>
+              </>
+            )}
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 };
 

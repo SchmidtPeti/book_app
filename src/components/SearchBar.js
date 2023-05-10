@@ -72,27 +72,26 @@ const SearchBar = () => {
     setLoading(true);
   
     const quotes = await getQuote(searchTerm);
-    let bookData  = [];
   
     if (quotes.length > 0) {
       const firstQuote = [quotes[0]];
   
-      bookData = await fetchBooks(firstQuote,searchTerm);
+      const bookData = await fetchBooks(firstQuote);
   
       updateData(bookData);
       setLoading(false);
+      if (bookData.length === 0) {
+        setnotFoundSearch(true); // Set notFoundSearch to true when quotes are not found
+      } else {
       setnotFoundSearch(false); // Set notFoundSearch to false when quotes are found
+      }
     } else {
-      const bookData = await fetchBooks([],searchTerm);
-      updateData(bookData);
+      updateData([]);
       setLoading(false);
-      setnotFoundSearch(false); // Set notFoundSearch to true when quotes are not found
-    }
-    if (!bookData) {
-      console.log("kis majom:",bookData)
-      setnotFoundSearch(true);
+      setnotFoundSearch(true); // Set notFoundSearch to true when quotes are not found
     }
   };
+  
   
   
 
