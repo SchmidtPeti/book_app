@@ -22,19 +22,14 @@
 - [x] Egy könyvnek külön oldal létrehozása, ahová például a mentett könyvek irányít, de van lehetőség máshonnan is oda menni.
 - [x] Egyéni könyvek hozzáadása a könyv olvasáshoz, amit esetleg az oldal nem ismer.
 - [x] A könyvekhez egy az oldalhoz egyéni érdeklési szám meghatározása
+- [x] Jelezni valahogy a napokat, amikre olvasás van ütemezve a naptárba illetve real frissítés
+- [x] Felhasználók számára lehetővé tenni a könyvekekre haladási tervet meghatározni és azt követni az oldal naptárában
+- [x] Komponensek refaktorlása és a front-end megjelenő szöveg átírása magyarrá
+- [x] Források megjelenítése, Moly és Citatum
+- [x] Dokumentáció és tesztadat adatbázis -> tesztek írása
 
 ## Hátralévő feladatok
 
-- [ ] Olvasni valók, a rögzített oldalak, értesítésként
-- [ ] Jelezni valahogy a napokat, amikre olvasás van ütemezve a naptárba illetve real frissítés
-- [ ] Értesítési rendszer
-- [ ] Felhasználók számára lehetővé tenni a könyvekekre haladási tervet meghatározni és azt követni az oldal naptárában
-- [ ] Komponensek refaktorlása és a front-end megjelenő szöveg átírása magyarrá
-- [ ] Források megjelenítése, Moly és Citatum
-- [ ] Stílus javítása és további tesztek írása
-- [ ] Error pages (without login saved books)
-- [ ] Az oldal teljes magyarrá tétele
-- [ ] Dokumentáció és tesztadat adatbázis -> tesztek írása
 - [ ] Extra: sUrl link figyelés, hogy minden kisebb akciónak legyen, külön url-je
 - [ ] Extra: mások is láthatják, hogy mennyien olvassák most azt a könyvet és hogyan 
 haladnak vele
